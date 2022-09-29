@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 100417
 File Encoding         : 65001
 
-Date: 2022-09-20 05:50:03
+Date: 2022-09-30 06:43:55
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -42,16 +42,18 @@ INSERT INTO `tb_approval` VALUES ('3', 'Drs. JOKO DWIJATMOKO, M.Si\r\n', '197211
 DROP TABLE IF EXISTS `tb_capaian_kerja`;
 CREATE TABLE `tb_capaian_kerja` (
   `id_capaian_kinerja` int(30) NOT NULL AUTO_INCREMENT,
-  `id_periode` int(30) DEFAULT NULL,
+  `periode` varchar(7) DEFAULT '',
   `id_pegawai` int(30) DEFAULT NULL,
   `nilai_produktivitas_kerja` int(5) DEFAULT NULL,
   `id_approval` int(30) DEFAULT NULL,
   PRIMARY KEY (`id_capaian_kinerja`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_capaian_kerja
 -- ----------------------------
+INSERT INTO `tb_capaian_kerja` VALUES ('3', '2022-09', '18', '99', null);
+INSERT INTO `tb_capaian_kerja` VALUES ('4', '2022-08', '18', '97', null);
 
 -- ----------------------------
 -- Table structure for tb_jabatan
@@ -147,28 +149,6 @@ INSERT INTO `tb_pegawai` VALUES ('38', 'nzainpradana', '123', 'Nur Zain Pradana'
 INSERT INTO `tb_pegawai` VALUES ('39', 'nzainpradana', '123', 'Nur Zain', '1', null, null);
 
 -- ----------------------------
--- Table structure for tb_perilaku_kerja
--- ----------------------------
-DROP TABLE IF EXISTS `tb_perilaku_kerja`;
-CREATE TABLE `tb_perilaku_kerja` (
-  `id_perilaku_kerja` int(30) NOT NULL AUTO_INCREMENT,
-  `id_periode` int(30) DEFAULT NULL,
-  `id_pegawai` int(30) DEFAULT NULL,
-  `jumlah_hari_kerja` int(10) DEFAULT NULL,
-  `jumlah_tidak_hadir` int(2) DEFAULT NULL,
-  `jumlah_dt_pc` int(10) DEFAULT NULL,
-  `jumlah_tidak_hadir_apel` int(10) DEFAULT NULL,
-  `total_pengurang_tpp` int(10) DEFAULT NULL,
-  `nilai_disiplin_kerja` int(5) DEFAULT NULL,
-  `id_approval` int(30) DEFAULT NULL,
-  PRIMARY KEY (`id_perilaku_kerja`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of tb_perilaku_kerja
--- ----------------------------
-
--- ----------------------------
 -- Table structure for tb_periode
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_periode`;
@@ -183,6 +163,34 @@ CREATE TABLE `tb_periode` (
 -- ----------------------------
 -- Records of tb_periode
 -- ----------------------------
+
+-- ----------------------------
+-- Table structure for tb_rekapitulasi_presensi
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_rekapitulasi_presensi`;
+CREATE TABLE `tb_rekapitulasi_presensi` (
+  `id_rekapitulasi_presensi` int(30) NOT NULL AUTO_INCREMENT,
+  `periode` varchar(7) DEFAULT '',
+  `id_pegawai` int(30) DEFAULT NULL,
+  `jumlah_hari_kerja` int(10) DEFAULT NULL,
+  `jumlah_tidak_hadir` int(2) DEFAULT NULL,
+  `jumlah_dl_pc` int(10) DEFAULT NULL,
+  `jumlah_tidak_hadir_rapat` int(10) DEFAULT NULL,
+  `total_pengurangan_tpp` int(10) DEFAULT NULL,
+  `nilai_disiplin_kerja` int(5) DEFAULT NULL,
+  `id_approval` int(30) DEFAULT NULL,
+  PRIMARY KEY (`id_rekapitulasi_presensi`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of tb_rekapitulasi_presensi
+-- ----------------------------
+INSERT INTO `tb_rekapitulasi_presensi` VALUES ('1', '2022-09', null, null, null, null, null, null, null, null);
+INSERT INTO `tb_rekapitulasi_presensi` VALUES ('2', '2022-09', null, null, null, null, null, null, null, null);
+INSERT INTO `tb_rekapitulasi_presensi` VALUES ('3', '2022-09', null, null, null, null, null, null, null, null);
+INSERT INTO `tb_rekapitulasi_presensi` VALUES ('4', '2022-09', null, '22', '0', null, '0', '0', '100', null);
+INSERT INTO `tb_rekapitulasi_presensi` VALUES ('5', '2022-09', null, '22', '0', null, '0', '0', '100', null);
+INSERT INTO `tb_rekapitulasi_presensi` VALUES ('6', '2022-09', '5', '22', '0', null, '0', '0', '100', null);
 
 -- ----------------------------
 -- Table structure for tb_tpp
