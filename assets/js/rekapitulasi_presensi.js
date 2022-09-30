@@ -19,7 +19,9 @@ $(document).ready(function () {
 
 		// Load data for the table's content from an Ajax source
 		ajax: {
-			url: baseUrl + "/RekapitulasiPresensi/loadRekapitulasiPresensiListDatatables",
+			url:
+				baseUrl +
+				"/RekapitulasiPresensi/loadRekapitulasiPresensiListDatatables",
 			type: "POST",
 			data: function (data) {
 				data.periode = $("#inputPeriode").val();
@@ -40,7 +42,6 @@ $(document).ready(function () {
 	});
 
 	$("#btnSave").click(function (e) {
-		
 		checkEmptyInput("#inputPresentaseDisiplinKerja");
 		checkEmptyInput("#inputPenguranganTPP");
 		checkEmptyInput("#inputTidakHadirRapat");
@@ -86,42 +87,46 @@ $(document).ready(function () {
 						title: "Gagal!",
 						text: "Gagal melakukan proses simpan Rekapitulasi Presensi",
 					});
-				}
+				},
 			});
 		}
 	});
 
 	$("#btnUpdate").click(function (e) {
+		checkEmptyInput("#inputPresentaseDisiplinKerja");
+		checkEmptyInput("#inputPenguranganTPP");
+		checkEmptyInput("#inputTidakHadirRapat");
+		checkEmptyInput("#inputDlPc");
+		checkEmptyInput("#inputTidakHadir");
+		checkEmptyInput("#inputJumlahHariKerja");
 		checkEmptyInput("#inputPegawai");
-		checkEmptyInput("#inputPresentaseProduktivitas");
+		checkEmptyInput("#inputPeriode");
 
 		if (
+			checkEmptyInput("#inputPresentaseDisiplinKerja") &&
+			checkEmptyInput("#inputPenguranganTPP") &&
+			checkEmptyInput("#inputTidakHadirRapat") &&
+			checkEmptyInput("#inputDlPc") &&
+			checkEmptyInput("#inputTidakHadir") &&
+			checkEmptyInput("#inputJumlahHariKerja") &&
 			checkEmptyInput("#inputPegawai") &&
-			checkEmptyInput("#inputPresentaseProduktivitas")
+			checkEmptyInput("#inputPeriode")
 		) {
 			$.ajax({
-				url: baseUrl + "/CapaianKinerja/Update",
+				url: baseUrl + "/RekapitulasiPresensi/Update",
 				type: "POST",
-				data: {
-					periode	: $("#inputPeriode").val(),
-					presentase_produktivitas : $("#inputPresentaseProduktivitas").val(),
-					id_pegawai	: $("#inputPegawai").val()
-				},
+				data: $("#rekapitulasiPresensiForm").serialize(),
 				dataType: "JSON",
 				success: function (response) {
-					$("#capianKinerjaForm")[0].reset();
-					$("#btnUpdate").attr("hidden", "hidden");
-					$("#btnSave").removeAttr("hidden");
-
-					$("#inputPegawai").removeAttr("disabled");
-					$("#inputPeriode").removeAttr("disabled");
-
 					if (response.status == "success") {
+						$("#rekapitulasiPresensiForm")[0].reset();
 						Swal.fire({
 							icon: "success",
 							title: "Berhasil!",
 							text: response.message,
 						});
+						$("#btnUpdate").attr("hidden", "hidden");
+						$("#btnSave").removeAttr("hidden");
 					} else {
 						Swal.fire({
 							icon: "error",
@@ -135,7 +140,7 @@ $(document).ready(function () {
 					Swal.fire({
 						icon: "error",
 						title: "Gagal!",
-						text: "Gagal melakukan proses Update Capaian Kinerja",
+						text: "Gagal melakukan proses Update Rekapitulasi Presensi",
 					});
 				},
 			});
@@ -143,7 +148,7 @@ $(document).ready(function () {
 	});
 
 	$("#btnCancel").click(function (e) {
-		$("#jabatanForm")[0].reset();
+		$("#rekapitulasiPresensiForm")[0].reset();
 
 		$("#btnSave").removeAttr("hidden");
 		$("#btnUpdate").attr("hidden", "hidden");
@@ -184,27 +189,31 @@ function reload_table() {
 }
 
 function editNilai(id) {
-	$("#capianKinerjaForm")[0].reset();
-
+	$("#rekapitulasiPresensiForm")[0].reset();
 
 	$.ajax({
-		url: baseUrl + "/CapaianKinerja/edit",
+		url: baseUrl + "/RekapitulasiPresensi/edit",
 		type: "POST",
 		dataType: "JSON",
 		data: {
-			id_capaian_kinerja: id,
+			id_rekapitulasi_presensi: id,
 		},
 		success: function (response) {
 			if (response.status == "success") {
 				var data = response.data;
 				$("#inputPeriode").val(data.periode);
 				$("#inputPegawai").val(data.id_pegawai);
-				$("#inputPresentaseProduktivitas").val(data.nilai_produktivitas_kerja);
+				$("#inputJumlahHariKerja").val(data.jumlah_hari_kerja);
+				$("#inputTidakHadir").val(data.jumlah_tidak_hadir);
+				$("#inputDlPc").val(data.jumlah_dl_pc);
+				$("#inputTidakHadirRapat").val(data.jumlah_tidak_hadir_rapat);
+				$("#inputPenguranganTPP").val(data.total_pengurangan_tpp);
+				$("#inputPresentaseDisiplinKerja").val(data.nilai_disiplin_kerja);
 
 				$("#inputPegawai").attr("disabled", "disabled");
 				$("#inputPeriode").attr("disabled", "disabled");
 
-				$("#inputPresentaseProduktivitas").focus();
+				$("#inputPresentaseDisiplinKerja").focus();
 
 				$("#btnSave").attr("hidden", "hidden");
 				$("#btnUpdate").removeAttr("hidden");
@@ -212,7 +221,7 @@ function editNilai(id) {
 				Swal.fire({
 					icon: "error",
 					title: "Gagal!",
-					text: "Gagal mendapatkan Data Jabatan!",
+					text: "Gagal mendapatkan Data Rekapitulasi Presensi!",
 				});
 			}
 		},
@@ -220,7 +229,7 @@ function editNilai(id) {
 			Swal.fire({
 				icon: "error",
 				title: "Gagal!",
-				text: "Gagal memproses Data Pegawai!",
+				text: "Gagal memproses Data Rekapitulasi Presensi!",
 			});
 		},
 	});

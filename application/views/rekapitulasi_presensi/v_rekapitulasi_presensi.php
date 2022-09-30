@@ -22,11 +22,11 @@
     <!-- Main content -->
     <div class="content">
         <div class="container-fluid">
-            
-        <form action="#" id="rekapitulasiPresensiForm" method="post" target="_blank">
-            <div class="row">
-                <div class="col-12">
-                    <div class="card card-success card-outline">
+
+            <form action="#" id="rekapitulasiPresensiForm" method="post" target="_blank">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card card-success card-outline">
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-12">
@@ -38,21 +38,21 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <div class="card card-success card-outline">
-                        <div class="card-header">
-                            <div class="card-title">
-                                Daftar Rekapitulasi Presensi
-                                <br>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card card-success card-outline">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    Daftar Rekapitulasi Presensi
+                                    <br>
+                                </div>
                             </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-12">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12">
                                         <div class="row">
                                             <div class="col-4">
                                                 <div class="form-group">
@@ -117,35 +117,35 @@
                                                 <button type="reset" id="btnCancel" class="btn btn-secondary">Reset</button>
                                             </div>
                                         </div>
-                                    </form>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-12">
-                                    <table id="tableRekapitulasiPresensi" class="table table-bordered table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>Nama Pegawai</th>
-                                                <th>Jabatan</th>
-                                                <th>Jumlah Hari Kerja</th>
-                                                <th>Tidak Hadir</th>
-                                                <th>Telat / Pulang Cepat</th>
-                                                <th>Tidak Hadir Rapat</th>
-                                                <th>Pengurangan TPP</th>
-                                                <th>Presentase Disiplin Kerja</th>
-                                                <th>#</th>
-                                            </tr>
-                                        </thead>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            </form>
         </div>
     </div>
+    <hr>
+    <div class="row">
+        <div class="col-12">
+            <table id="tableRekapitulasiPresensi" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Nama Pegawai</th>
+                        <th>Jabatan</th>
+                        <th>Jumlah Hari Kerja</th>
+                        <th>Tidak Hadir</th>
+                        <th>Telat / Pulang Cepat</th>
+                        <th>Tidak Hadir Rapat</th>
+                        <th>Pengurangan TPP</th>
+                        <th>Presentase Disiplin Kerja</th>
+                        <th>#</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 <!-- /.content-wrapper -->
 <script src="<?= base_url() . 'assets/js/rekapitulasi_presensi.js'; ?>"></script>

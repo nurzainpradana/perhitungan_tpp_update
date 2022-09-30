@@ -31,13 +31,13 @@ class RekapitulasiPresensi extends CI_Controller
     function loadRekapitulasiPresensiListDatatables()
     {
 
-        $jabatan            = $this->M_rekapitulasi_presensi->loadDataRekapitulasiPresensiDatatables();
+        $rekapitulasi_presensi            = $this->M_rekapitulasi_presensi->loadDataRekapitulasiPresensiDatatables();
 
         $data               = array();
         $no                 = $_POST['start'];
 
         $i                  = 0;
-        foreach ($jabatan as $item) {
+        foreach ($rekapitulasi_presensi as $item) {
             $no++;
             $row        = array();
 
@@ -47,7 +47,16 @@ class RekapitulasiPresensi extends CI_Controller
             $row[]      = $item->jumlah_tidak_hadir != null ? $item->jumlah_tidak_hadir . " Hari" : "-";
             $row[]      = $item->jumlah_dl_pc != null ? $item->jumlah_dl_pc . " Menit" : "-";
             $row[]      = $item->jumlah_tidak_hadir_rapat != null ? $item->jumlah_tidak_hadir_rapat . " Hari" : "-";
-            $row[]      = $item->total_pengurangan_tpp;
+
+            if ($item->total_pengurangan_tpp > 0) {
+                $total_pengurangan_tpp = "Rp " . number_format($item->total_pengurangan_tpp, 2, ',', '.');
+            } else {
+                $total_pengurangan_tpp  = $item->total_pengurangan_tpp;
+            }
+
+
+
+            $row[]      = $total_pengurangan_tpp;
             $row[]      = $item->nilai_disiplin_kerja . " %";
             $row[]      = "
             <button data-id='$item->id_rekapitulasi_presensi' class='btn btn-xs btn-success' onclick='editNilai($item->id_rekapitulasi_presensi)' title='Edit Nilai'><i class='fa fa-edit'></i></button>
@@ -60,8 +69,8 @@ class RekapitulasiPresensi extends CI_Controller
 
         $output         = array(
             "draw"              => $_POST['draw'],
-            "recordsTotal"      => $this->M_jabatan->count_all(),
-            "recordsFiltered"   => $this->M_jabatan->count_filtered(),
+            "recordsTotal"      => $this->M_rekapitulasi_presensi->count_all(),
+            "recordsFiltered"   => $this->M_rekapitulasi_presensi->count_filtered(),
             "data"              => $data,
         );
 
@@ -81,7 +90,7 @@ class RekapitulasiPresensi extends CI_Controller
         $tidak_hadir_rapat          = $this->input->post("tidak_hadir_rapat");
         $pengurangan_tpp            = $this->input->post("pengurangan_tpp");
         $presentase_disiplin_kerja  = $this->input->post("presentase_disiplin_kerja");
-        
+
 
         $data           = array(
             "id_pegawai"                    => $id_pegawai,
@@ -112,18 +121,18 @@ class RekapitulasiPresensi extends CI_Controller
 
     function edit()
     {
-        $id_capaian_kinerja     = $this->input->post("id_capaian_kinerja");
+        $id_rekapitulasi_presensi     = $this->input->post("id_rekapitulasi_presensi");
 
-        $capaian_kinerja        = $this->M_capaian_kinerja->getDetailCapaianKinerja($id_capaian_kinerja);
+        $rekapitulasi_presensi        = $this->M_rekapitulasi_presensi->getDetailRekapitulasiPresensiPegawai($id_rekapitulasi_presensi);
 
-        if ($capaian_kinerja) {
-            $response_data      = $capaian_kinerja;
+        if ($rekapitulasi_presensi) {
+            $response_data      = $rekapitulasi_presensi;
             $response_status    = "success";
             $response_message   = "Berhasil";
         } else {
             $response_data      = null;
             $response_status    = "failed";
-            $response_message   = "Gagal mendapatkan Data Jabatan";
+            $response_message   = "Gagal mendapatkan Data Rekapitulasi Presensi";
         }
 
         echo json_encode(array(

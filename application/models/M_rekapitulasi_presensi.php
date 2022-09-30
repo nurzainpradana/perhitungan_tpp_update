@@ -16,6 +16,15 @@ class M_rekapitulasi_presensi extends CI_Model
         $this->search   = '';
     }
 
+    function getDetailRekapitulasiPresensiPegawai($id_rekapitulasi_presensi)
+    {
+        $this->db->select("*");
+        $this->db->from("tb_rekapitulasi_presensi");
+        $this->db->where("id_rekapitulasi_presensi", $id_rekapitulasi_presensi);
+
+        return $this->db->get()->row();
+    }
+
 
 
 
@@ -38,8 +47,7 @@ class M_rekapitulasi_presensi extends CI_Model
             $i++;
         }
 
-        if(isset($_POST["periode"]))
-        {
+        if (isset($_POST["periode"])) {
             $this->db->where("periode", $_POST["periode"]);
         }
 
