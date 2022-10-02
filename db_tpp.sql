@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 100417
 File Encoding         : 65001
 
-Date: 2022-09-30 19:23:04
+Date: 2022-10-03 06:04:39
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -37,6 +37,27 @@ INSERT INTO `tb_approval` VALUES ('2', 'CECEP SUMITA AGUNG, SE\r\n', '19760716 2
 INSERT INTO `tb_approval` VALUES ('3', 'Drs. JOKO DWIJATMOKO, M.Si\r\n', '19721112 199302 1 001\r\n', 'Pembina Tk.I / IV.b\r\n', 'Camat Setu\r\n', 'Kecamatan Setu\r\n');
 
 -- ----------------------------
+-- Table structure for tb_besaran_tpp
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_besaran_tpp`;
+CREATE TABLE `tb_besaran_tpp` (
+  `id_besaran_tpp` int(11) NOT NULL AUTO_INCREMENT,
+  `id_jabatan` int(11) DEFAULT NULL,
+  `beban_kerja` int(11) DEFAULT 0,
+  `prestasi_kerja` int(11) DEFAULT NULL,
+  `kondisi_kerja` int(11) DEFAULT NULL,
+  `kelangkaan_profesi` int(11) DEFAULT NULL,
+  `tambahan_tpp` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_besaran_tpp`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of tb_besaran_tpp
+-- ----------------------------
+INSERT INTO `tb_besaran_tpp` VALUES ('2', '2', '8715000', '11205000', '4980000', '0', '0');
+INSERT INTO `tb_besaran_tpp` VALUES ('3', '1', '11340000', '14580000', '6480000', '0', '0');
+
+-- ----------------------------
 -- Table structure for tb_capaian_kerja
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_capaian_kerja`;
@@ -47,13 +68,14 @@ CREATE TABLE `tb_capaian_kerja` (
   `nilai_produktivitas_kerja` int(5) DEFAULT NULL,
   `id_approval` int(30) DEFAULT NULL,
   PRIMARY KEY (`id_capaian_kinerja`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_capaian_kerja
 -- ----------------------------
 INSERT INTO `tb_capaian_kerja` VALUES ('3', '2022-09', '18', '99', null);
 INSERT INTO `tb_capaian_kerja` VALUES ('4', '2022-08', '18', '97', null);
+INSERT INTO `tb_capaian_kerja` VALUES ('5', '2022-10', '2', '100', null);
 
 -- ----------------------------
 -- Table structure for tb_jabatan
@@ -180,7 +202,7 @@ CREATE TABLE `tb_rekapitulasi_presensi` (
   `nilai_disiplin_kerja` int(5) DEFAULT NULL,
   `id_approval` int(30) DEFAULT NULL,
   PRIMARY KEY (`id_rekapitulasi_presensi`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_rekapitulasi_presensi
@@ -191,6 +213,8 @@ INSERT INTO `tb_rekapitulasi_presensi` VALUES ('3', '2022-09', null, null, null,
 INSERT INTO `tb_rekapitulasi_presensi` VALUES ('4', '2022-09', null, '22', '0', null, '0', '0', '100', null);
 INSERT INTO `tb_rekapitulasi_presensi` VALUES ('5', '2022-09', null, '22', '0', null, '0', '0', '100', null);
 INSERT INTO `tb_rekapitulasi_presensi` VALUES ('6', '2022-09', '5', '22', '0', null, '0', '0', '100', null);
+INSERT INTO `tb_rekapitulasi_presensi` VALUES ('8', '2022-10', '18', '22', '2', '10', '3', '600000', '70', null);
+INSERT INTO `tb_rekapitulasi_presensi` VALUES ('9', '2022-10', '2', '22', '0', '0', '0', '0', '100', null);
 
 -- ----------------------------
 -- Table structure for tb_tpp
@@ -198,7 +222,7 @@ INSERT INTO `tb_rekapitulasi_presensi` VALUES ('6', '2022-09', '5', '22', '0', n
 DROP TABLE IF EXISTS `tb_tpp`;
 CREATE TABLE `tb_tpp` (
   `id_tpp` int(30) NOT NULL AUTO_INCREMENT,
-  `id_periode` int(30) DEFAULT NULL,
+  `periode` varchar(7) DEFAULT '',
   `id_pegawai` int(30) DEFAULT NULL,
   `tpp_beban_kerja` int(20) DEFAULT NULL,
   `tpp_prestasi_kerja` int(20) DEFAULT NULL,
@@ -212,9 +236,27 @@ CREATE TABLE `tb_tpp` (
   `jumlah_tpp_diterima` int(11) DEFAULT NULL,
   `id_approval` int(30) DEFAULT NULL,
   PRIMARY KEY (`id_tpp`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_tpp
+-- ----------------------------
+INSERT INTO `tb_tpp` VALUES ('1', '2022-10', '2', '11340000', '14580000', '6480000', '0', '32400000', '100', '100', '0', '0', '64800000', null);
+
+-- ----------------------------
+-- Table structure for user_log
+-- ----------------------------
+DROP TABLE IF EXISTS `user_log`;
+CREATE TABLE `user_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `datetime` datetime DEFAULT NULL ON UPDATE current_timestamp(),
+  `module` varchar(255) DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `status` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of user_log
 -- ----------------------------
 SET FOREIGN_KEY_CHECKS=1;
