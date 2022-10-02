@@ -7,9 +7,9 @@ var table;
 $(document).ready(function () {
 	$(".loading").hide();
 
-	loadPegawaiOptionList();
+	loadJabatanOptionList();
 
-	table = $("#tableRekapitulasiPresensi").DataTable({
+	table = $("#tableBesaranTpp").DataTable({
 		processing: true, //Feature control the processing indicator.
 		serverSide: true, //Feature control DataTables' server-side processing mode.
 		searching: true,
@@ -21,10 +21,9 @@ $(document).ready(function () {
 		ajax: {
 			url:
 				baseUrl +
-				"/RekapitulasiPresensi/loadRekapitulasiPresensiListDatatables",
+				"/BesaranTpp/loadBesaranTppListDatatables",
 			type: "POST",
 			data: function (data) {
-				data.periode = $("#inputPeriode").val();
 			},
 		},
 
@@ -37,36 +36,30 @@ $(document).ready(function () {
 		],
 	});
 
-	$("#inputPeriode").on("change", function (e) {
-		reload_table();
-	});
-
 	$("#btnSave").click(function (e) {
-		checkEmptyInput("#inputPresentaseDisiplinKerja");
-		checkEmptyInput("#inputPenguranganTPP");
-		checkEmptyInput("#inputTidakHadirRapat");
-		checkEmptyInput("#inputDlPc");
-		checkEmptyInput("#inputTidakHadir");
-		checkEmptyInput("#inputJumlahHariKerja");
-		checkEmptyInput("#inputPegawai");
+		checkEmptyInput("#inputJabatan");
+		checkEmptyInput("#inputBebanKerja");
+		checkEmptyInput("#inputPrestasiKerja");
+		checkEmptyInput("#inputKondisiKerja");
+		checkEmptyInput("#inputKelangkaanProfesi");
+		checkEmptyInput("#inputTambahanTpp");
 
 		if (
-			checkEmptyInput("#inputPresentaseDisiplinKerja") &&
-			checkEmptyInput("#inputPenguranganTPP") &&
-			checkEmptyInput("#inputTidakHadirRapat") &&
-			checkEmptyInput("#inputDlPc") &&
-			checkEmptyInput("#inputTidakHadir") &&
-			checkEmptyInput("#inputJumlahHariKerja") &&
-			checkEmptyInput("#inputPegawai")
+			checkEmptyInput("#inputJabatan") &&
+			checkEmptyInput("#inputBebanKerja") &&
+			checkEmptyInput("#inputPrestasiKerja") &&
+			checkEmptyInput("#inputKondisiKerja") &&
+			checkEmptyInput("#inputKelangkaanProfesi") &&
+			checkEmptyInput("#inputTambahanTpp")
 		) {
 			$.ajax({
-				url: baseUrl + "/RekapitulasiPresensi/Add",
+				url: baseUrl + "/BesaranTpp/Add",
 				type: "POST",
-				data: $("#rekapitulasiPresensiForm").serialize(),
+				data: $("#besaranTppForm").serialize(),
 				dataType: "JSON",
 				success: function (response) {
 					if (response.status == "success") {
-						$("#rekapitulasiPresensiForm")[0].reset();
+						$("#besaranTppForm")[0].reset();
 						Swal.fire({
 							icon: "success",
 							title: "Berhasil!",
@@ -85,7 +78,7 @@ $(document).ready(function () {
 					Swal.fire({
 						icon: "error",
 						title: "Gagal!",
-						text: "Gagal melakukan proses simpan Rekapitulasi Presensi",
+						text: "Gagal melakukan proses simpan Besaran TPP",
 					});
 				},
 			});
@@ -93,29 +86,26 @@ $(document).ready(function () {
 	});
 
 	$("#btnUpdate").click(function (e) {
-		checkEmptyInput("#inputPresentaseDisiplinKerja");
-		checkEmptyInput("#inputPenguranganTPP");
-		checkEmptyInput("#inputTidakHadirRapat");
-		checkEmptyInput("#inputDlPc");
-		checkEmptyInput("#inputTidakHadir");
-		checkEmptyInput("#inputJumlahHariKerja");
-		checkEmptyInput("#inputPegawai");
-		checkEmptyInput("#inputPeriode");
+		checkEmptyInput("#inputJabatan");
+		checkEmptyInput("#inputBebanKerja");
+		checkEmptyInput("#inputPrestasiKerja");
+		checkEmptyInput("#inputKondisiKerja");
+		checkEmptyInput("#inputKelangkaanProfesi");
+		checkEmptyInput("#inputTambahanTpp");
 
 		if (
-			checkEmptyInput("#inputPresentaseDisiplinKerja") &&
-			checkEmptyInput("#inputPenguranganTPP") &&
-			checkEmptyInput("#inputTidakHadirRapat") &&
-			checkEmptyInput("#inputDlPc") &&
-			checkEmptyInput("#inputTidakHadir") &&
-			checkEmptyInput("#inputJumlahHariKerja") &&
-			checkEmptyInput("#inputPegawai") &&
-			checkEmptyInput("#inputPeriode")
+			
+		checkEmptyInput("#inputJabatan") &&
+		checkEmptyInput("#inputBebanKerja") &&
+		checkEmptyInput("#inputPrestasiKerja") &&
+		checkEmptyInput("#inputKondisiKerja") &&
+		checkEmptyInput("#inputKelangkaanProfesi") &&
+		checkEmptyInput("#inputTambahanTpp")
 		) {
 			$.ajax({
-				url: baseUrl + "/RekapitulasiPresensi/Update",
+				url: baseUrl + "/BesaranTpp/Update",
 				type: "POST",
-				data: $("#rekapitulasiPresensiForm").serialize(),
+				data: $("#besaranTppForm").serialize(),
 				dataType: "JSON",
 				success: function (response) {
 					if (response.status == "success") {
@@ -140,7 +130,7 @@ $(document).ready(function () {
 					Swal.fire({
 						icon: "error",
 						title: "Gagal!",
-						text: "Gagal melakukan proses Update Rekapitulasi Presensi",
+						text: "Gagal melakukan proses Update Besaran TPP",
 					});
 				},
 			});
@@ -148,7 +138,7 @@ $(document).ready(function () {
 	});
 
 	$("#btnCancel").click(function (e) {
-		$("#rekapitulasiPresensiForm")[0].reset();
+		$("#besaranTppForm")[0].reset();
 
 		$("#btnSave").removeAttr("hidden");
 		$("#btnUpdate").attr("hidden", "hidden");
@@ -156,64 +146,50 @@ $(document).ready(function () {
 		reload_table();
 	});
 
-	$(".custom-file-input").change(function () {
-		var $el = $(this);
-		var files = $el[0].files;
-		if (files[0] == null) {
-			label = "Choose Softcopy File";
-		} else {
-			label = files[0].name;
-		}
-
-		if (files.length > 1) {
-			label = label + " and " + String(files.length - 1) + " more files";
-		}
-		$el.next(".custom-file-label").html(label);
-	});
 });
 
-function loadPegawaiOptionList() {
+function loadJabatanOptionList()
+{
 	$.ajax({
-		url: baseUrl + "/Pegawai/loadPegawaiListOption",
+		url: baseUrl + "/Pegawai/loadJabatanListOption",
 		type: "POST",
 		success: function (response) {
-			$("#inputPegawai").empty();
+			$("#inputJabatan").empty();
 
-			$("#inputPegawai").append(response);
+			$("#inputJabatan").append(response);
 		},
 	});
 }
+
 
 function reload_table() {
 	table.ajax.reload(null, false); //reload datatable ajax
 }
 
 function editNilai(id) {
-	$("#rekapitulasiPresensiForm")[0].reset();
+	$("#besaranTppForm")[0].reset();
 
 	$.ajax({
-		url: baseUrl + "/RekapitulasiPresensi/edit",
+		url: baseUrl + "/BesaranTpp/edit",
 		type: "POST",
 		dataType: "JSON",
 		data: {
-			id_rekapitulasi_presensi: id,
+			id_besaran_tpp: id,
 		},
 		success: function (response) {
 			if (response.status == "success") {
 				var data = response.data;
-				$("#inputPeriode").val(data.periode);
-				$("#inputPegawai").val(data.id_pegawai);
-				$("#inputJumlahHariKerja").val(data.jumlah_hari_kerja);
-				$("#inputTidakHadir").val(data.jumlah_tidak_hadir);
-				$("#inputDlPc").val(data.jumlah_dl_pc);
-				$("#inputTidakHadirRapat").val(data.jumlah_tidak_hadir_rapat);
-				$("#inputPenguranganTPP").val(data.total_pengurangan_tpp);
-				$("#inputPresentaseDisiplinKerja").val(data.nilai_disiplin_kerja);
 
-				$("#inputPegawai").attr("readonly", "readonly");
-				$("#inputPeriode").attr("readonly", "readonly");
+				$("#inputJabatan").val(data.id_jabatan);
+				$("#inputJabatan").attr("readonly", "readonly");
+				
+				$("#inputBebanKerja").val(data.beban_kerja);
+				$("#inputPrestasiKerja").val(data.prestasi_kerja);
+				$("#inputKondisiKerja").val(data.kondisi_kerja);
+				$("#inputKelangkaanProfesi").val(data.kelangkaan_profesi);
+				$("#inputTambahanTpp").val(data.tambahan_tpp);
 
-				$("#inputPresentaseDisiplinKerja").focus();
+				$("#inputBebanKerja").focus();
 
 				$("#btnSave").attr("hidden", "hidden");
 				$("#btnUpdate").removeAttr("hidden");
@@ -221,7 +197,7 @@ function editNilai(id) {
 				Swal.fire({
 					icon: "error",
 					title: "Gagal!",
-					text: "Gagal mendapatkan Data Rekapitulasi Presensi!",
+					text: "Gagal mendapatkan Data Besaran TPP!",
 				});
 			}
 		},
@@ -229,7 +205,7 @@ function editNilai(id) {
 			Swal.fire({
 				icon: "error",
 				title: "Gagal!",
-				text: "Gagal memproses Data Rekapitulasi Presensi!",
+				text: "Gagal memproses Data Besaran TPP!",
 			});
 		},
 	});
@@ -248,10 +224,10 @@ function deleteNilai(id) {
 		if (result.isConfirmed) {
 			$(".loading").show();
 			$.ajax({
-				url: baseUrl + "/RekapitulasiPresensi/delete",
+				url: baseUrl + "/BesaranTpp/delete",
 				type: "POST",
 				data: {
-					id_rekapitulasi_presensi: id,
+					id_besaran_tpp: id,
 				},
 				dataType: "JSON",
 				success: function (response) {
@@ -267,7 +243,7 @@ function deleteNilai(id) {
 							text: response.message,
 						});
 					} else if (response.status == "failed") {
-						var message = "Gagal menghapus Rekapitulasi Presensi";
+						var message = "Gagal menghapus Besaran TPP";
 
 						if (response.message !== "") {
 							message = response.message;
@@ -286,7 +262,7 @@ function deleteNilai(id) {
 					Swal.fire({
 						icon: "error",
 						title: "Gagal!",
-						text: "Gagal memproses Hapus Rekapitulasi Presensi!",
+						text: "Gagal memproses Hapus Besaran TPP!",
 					});
 				},
 			});

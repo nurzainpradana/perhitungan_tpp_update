@@ -66,14 +66,14 @@
                                             <div class="col-4">
                                                 <div class="form-group">
                                                     <label for="exampleSelectBorder">Jumlah Hari Kerja <span class="text-danger">*</span></label>
-                                                    <input name="jumlah_hari_kerja" type="number" class="form-control form-control-border border-width-2" id="inputJumlahHariKerja" autocomplete="off" min="0" max="100" required placeholder="Masukkan Jumlah Hari Kerja">
+                                                    <input name="jumlah_hari_kerja" type="number" class="form-control form-control-border border-width-2" id="inputJumlahHariKerja" autocomplete="off" min="0" max="100" required placeholder="Masukkan Jumlah Hari Kerja (Hari)">
                                                     <span class='form-control-feedback text-danger'></span>
                                                 </div>
                                             </div>
                                             <div class="col-4">
                                                 <div class="form-group">
                                                     <label for="exampleSelectBorder">Tidak Hadir <span class="text-danger">*</span></label>
-                                                    <input name="tidak_hadir" type="number" class="form-control form-control-border border-width-2" id="inputTidakHadir" autocomplete="off" min="0" max="100" required placeholder="Masukkan Tidak Hadir">
+                                                    <input name="tidak_hadir" type="number" class="form-control form-control-border border-width-2" id="inputTidakHadir" autocomplete="off" min="0" max="100" required placeholder="Masukkan Tidak Hadir (Hari)">
                                                     <span class='form-control-feedback text-danger'></span>
                                                 </div>
                                             </div>
@@ -82,14 +82,14 @@
                                             <div class="col-4">
                                                 <div class="form-group">
                                                     <label for="exampleSelectBorder">Telat / Pulang Cepat<span class="text-danger">*</span></label>
-                                                    <input name="dl_pc" type="number" class="form-control form-control-border border-width-2" id="inputDlPc" autocomplete="off" min="0" max="100" required placeholder="Masukkan Telat / Pulang Cepat">
+                                                    <input name="dl_pc" type="number" class="form-control form-control-border border-width-2" id="inputDlPc" autocomplete="off" min="0" max="100" required placeholder="Masukkan Telat / Pulang Cepat (Menit)">
                                                     <span class='form-control-feedback text-danger'></span>
                                                 </div>
                                             </div>
                                             <div class="col-4">
                                                 <div class="form-group">
                                                     <label for="exampleSelectBorder">Tidak Hadir Rapat <span class="text-danger">*</span></label>
-                                                    <input name="tidak_hadir_rapat" type="number" class="form-control form-control-border border-width-2" id="inputTidakHadirRapat" autocomplete="off" min="0" max="100" required placeholder="Masukkan Tidak Hadir Rapat">
+                                                    <input name="tidak_hadir_rapat" type="number" class="form-control form-control-border border-width-2" id="inputTidakHadirRapat" autocomplete="off" min="0" max="100" required placeholder="Masukkan Tidak Hadir Rapat (Hari)">
                                                     <span class='form-control-feedback text-danger'></span>
                                                 </div>
                                             </div>
@@ -105,7 +105,7 @@
                                             <div class="col-4">
                                                 <div class="form-group">
                                                     <label for="exampleSelectBorder">Presentase Disiplin Kerja<span class="text-danger">*</span></label>
-                                                    <input name="presentase_disiplin_kerja" type="number" class="form-control form-control-border border-width-2" id="inputPresentaseDisiplinKerja" autocomplete="off" min="0" max="100" required placeholder="Masukkan Presentase Disiplin Kerja">
+                                                    <input name="presentase_disiplin_kerja" type="number" class="form-control form-control-border border-width-2" id="inputPresentaseDisiplinKerja" autocomplete="off" min="0" max="100" required placeholder="Masukkan Presentase Disiplin Kerja (%)">
                                                     <span class='form-control-feedback text-danger'></span>
                                                 </div>
                                             </div>

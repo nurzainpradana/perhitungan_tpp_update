@@ -144,12 +144,24 @@ class RekapitulasiPresensi extends CI_Controller
 
     function Update()
     {
-        $presentase_produktivitas   = $this->input->post("presentase_produktivitas");
-        $pegawai                    = $this->input->post("id_pegawai");
+        $pegawai                    = $this->input->post("pegawai");
         $periode                    = $this->input->post("periode");
 
+        $jumlah_hari_kerja          = $this->input->post("jumlah_hari_kerja");
+        $jumlah_tidak_hadir         = $this->input->post("tidak_hadir");
+        $jumlah_dl_pc               = $this->input->post("dl_pc");
+        $jumlah_tidak_hadir_rapat   = $this->input->post("tidak_hadir_rapat");
+        $pengurangan_tpp            = $this->input->post("pengurangan_tpp");
+        $presentase_disiplin_kerja  = $this->input->post("presentase_disiplin_kerja");
+
+
         $data       = array(
-            "nilai_produktivitas_kerja"      => $presentase_produktivitas
+            "jumlah_hari_kerja"         => $jumlah_hari_kerja,
+            "jumlah_tidak_hadir"        => $jumlah_tidak_hadir,
+            "jumlah_dl_pc"              => $jumlah_dl_pc,
+            "jumlah_tidak_hadir_rapat"  => $jumlah_tidak_hadir_rapat,
+            "total_pengurangan_tpp"     => $pengurangan_tpp,
+            "nilai_disiplin_kerja"      => $presentase_disiplin_kerja
         );
 
         $where      = array(
@@ -158,14 +170,14 @@ class RekapitulasiPresensi extends CI_Controller
             "id_approval"       => null
         );
 
-        $update             = $this->M_crud->update("tb_capaian_kerja", $data, $where);
+        $update             = $this->M_crud->update("tb_rekapitulasi_presensi", $data, $where);
 
         if ($update) {
             $response_status        = "success";
-            $response_message       = "Berhasil mengedit Presentase Produktivitas Kinerja";
+            $response_message       = "Berhasil mengedit Rekapitulasi Presensi Pegawai";
         } else {
             $response_status        = "failed";
-            $response_message       = "Gagal mengedit Presentase Produktivitas Kinerja";
+            $response_message       = "Gagal mengedit Rekapitulasi Presensi Pegawai";
         }
 
         echo json_encode(array(
@@ -176,20 +188,21 @@ class RekapitulasiPresensi extends CI_Controller
 
     function delete()
     {
-        $id_capaian_kinerja         = $this->input->post("id_capaian_kinerja");
+        $id_rekapitulasi_presensi         = $this->input->post("id_rekapitulasi_presensi");
 
         $where             = array(
-            "id_capaian_kinerja"            => $id_capaian_kinerja
+            "id_rekapitulasi_presensi"  => $id_rekapitulasi_presensi,
+            "id_approval"               => null
         );
 
-        $delete     = $this->M_crud->delete("tb_capaian_kerja", $where);
+        $delete     = $this->M_crud->delete("tb_rekapitulasi_presensi", $where);
 
         if ($delete) {
             $response_status        = "success";
-            $response_message       = "Berhasil menghapus Nilai Capaian Kinerja";
+            $response_message       = "Berhasil menghapus Rekapitulasi Presensi";
         } else {
             $response_status        = "failed";
-            $response_message       = "Gagal menghapus Nilai Capaian Kinerja";
+            $response_message       = "Gagal menghapus Rekapitulasi Presensi";
         }
 
         echo json_encode(array(

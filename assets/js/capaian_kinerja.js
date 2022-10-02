@@ -43,14 +43,11 @@ $(document).ready(function () {
 		checkEmptyInput("#inputPegawai");
 		checkEmptyInput("#inputPresentaseProduktivitas");
 
-		alert("Test");
 
 		if (
 			checkEmptyInput("#inputPegawai") &&
 			checkEmptyInput("#inputPresentaseProduktivitas")
 		) {
-			alert("Test");
-
 			$.ajax({
 				url: baseUrl + "/CapaianKinerja/Add",
 				type: "POST",
