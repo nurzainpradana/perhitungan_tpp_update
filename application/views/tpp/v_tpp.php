@@ -33,7 +33,7 @@
                         </div>
                         <div class="card-body">
 
-                            <form action="<?= base_url('Tpp/DetailTPP'); ?>" id="tppForm" method="post" target="_blank">
+                            <form action="<?= base_url('Tpp/ProsesHitungTPP'); ?>" id="tppForm" method="post" target="_blank">
                                 <?php
                                 if ($this->session->flashdata('error')) {
                                 ?>
@@ -64,7 +64,7 @@
 
                                 <div class="row">
                                     <div class="col-12">
-                                        <button type="submit" id="btnSave" class="btn btn-primary">Lihat Data TPP</button>
+                                        <button type="submit" id="btnSave" class="btn btn-primary">Proses Hitung TPP</button>
                                         <button type="reset" id="btnCancel" class="btn btn-secondary">Reset</button>
                                     </div>
                                 </div>

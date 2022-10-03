@@ -21,13 +21,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
   <style>
     body,
     html {
-      background-image: url("<?= base_url() . 'assets/img/library2.jpg'; ?>");
+      background-image: url("<?= base_url() . 'assets/img/pemda.jpg'; ?>");
       background-repeat: no-repeat;
       width: 100%;
       background-size: cover;
     }
   </style>
-  <link rel="icon" href="<?= base_url() ?>/assets/dist/img/ykk3.png" type="image/gif">
+  <link rel="icon" href="<?= base_url() ?>/assets/dist/img/bekasi.png" type="image/gif">
 </head>
 
 <body class="hold-transition login-page">
@@ -47,7 +47,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <?php
         } else {
         ?>
-          <p class="login-box-msg text-primary ">Silahkan Login terlebih dahulu</p>
+          <p class="login-box-msg text-success ">Silahkan Login terlebih dahulu</p>
         <?php
         }
         ?>
@@ -81,7 +81,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
           </div> -->
             <!-- /.col -->
             <div class="col-4">
-              <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+              <button type="submit" class="btn btn-success btn-block">Sign In</button>
             </div>
             <!-- /.col -->
           </div>
@@ -94,7 +94,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <a href="register.html" class="text-center">Register a new membership</a>
       </p> -->
       </div>
-      <div class="card-footer bg-primary">
+      <div class="card-footer bg-success">
 
       </div>
       <!-- /.login-card-body -->

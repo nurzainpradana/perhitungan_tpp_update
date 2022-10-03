@@ -27,7 +27,136 @@ class TPP extends CI_Controller
         $this->load->view('layout/v_footer');
     }
 
-    function DetailTPP()
+    function detailTPP($periode)
+    {
+        $datas['page_title']            = "TPP PERIODE $periode";
+
+        $data['periode']                = strtoupper($this->tgl_indo($periode));
+        $data['periode_ori']            = $periode;
+
+        $result                         = $this->M_tpp->loadTppByPeriode($periode);
+
+        $data['result']                 = $result;
+
+        $this->load->view('layout/v_header', $datas);
+        $this->load->view('layout/v_top_menu');
+        $this->load->view('layout/v_sidebar');
+        $this->load->view('tpp/v_tpp_detail', $data);
+        $this->load->view('layout/v_footer');
+    }
+
+    function cetakTPP()
+    {
+        $periode        = $this->input->post("periode");
+
+        $this->load->library('Excel');
+
+        $objPHPExcel = new PHPExcel();
+
+        $objPHPExcel->getProperties()->setCreator("IT DEV ZIPCO");
+        $objPHPExcel->getProperties()->setLastModifiedBy("IT DEV ZIPCO");
+        $objPHPExcel->getProperties()->setTitle("VOUCHER HISTORY LIST");
+        // $objPHPExcel->getProperties()->setSubject("Content Subject");
+        // $objPHPExcel->getProperties()->setDescription("Content Description");
+
+        //activate worksheet number 1
+        $objPHPExcel->setActiveSheetIndex(0);
+        //name the worksheet
+        $objPHPExcel->getActiveSheet()->setTitle('VOUCHER HISTORY LIST');
+
+        //Setting Width
+        $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(5);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(15);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(30);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(10);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(15);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(40);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(60);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(15);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(15);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('J')->setWidth(30);
+
+
+        $objPHPExcel->getActiveSheet()->setCellValue('A1', 'VOUCHER HISTORY LIST');
+        $objPHPExcel->getActiveSheet()->setCellValue('A2', 'ACCOUNTING STORAGE SYSTEM');
+        $objPHPExcel->getActiveSheet()->setCellValue('A3', 'Export Date ' . date("Y-m-d H:i:s"));
+
+        //Header
+        $objPHPExcel->getActiveSheet()->setCellValue('A5', 'NO');
+        $objPHPExcel->getActiveSheet()->setCellValue('B5', 'DATE');
+        $objPHPExcel->getActiveSheet()->setCellValue('C5', 'EMPLOYEE NAME');
+        $objPHPExcel->getActiveSheet()->setCellValue('D5', 'TYPE');
+        $objPHPExcel->getActiveSheet()->setCellValue('E5', 'VOUCHER NO');
+        $objPHPExcel->getActiveSheet()->setCellValue('F5', 'PAYMENT TO');
+        $objPHPExcel->getActiveSheet()->setCellValue('G5', 'PARTICULARS');
+        $objPHPExcel->getActiveSheet()->setCellValue('H5', 'BANK NAME');
+        $objPHPExcel->getActiveSheet()->setCellValue('I5', 'CURRENCY');
+        $objPHPExcel->getActiveSheet()->setCellValue('J5', 'LOCATION');
+
+        $row        = 6;
+        $no         = 1;
+
+        $data       = $this->M_voucher_history->loadVoucherHistoryList();
+
+        if ($data) {
+            foreach ($data as $i) {
+                $objPHPExcel->getActiveSheet()->setCellValue('A' . $row, $no);
+                $objPHPExcel->getActiveSheet()->setCellValue('B' . $row, $i->date);
+                $objPHPExcel->getActiveSheet()->setCellValue('C' . $row, $i->employee_name);
+                $objPHPExcel->getActiveSheet()->setCellValue('D' . $row, $i->type);
+                $objPHPExcel->getActiveSheet()->setCellValue('E' . $row, $i->VoucherNo);
+                $objPHPExcel->getActiveSheet()->setCellValue('F' . $row, $i->PaymentTo);
+                $objPHPExcel->getActiveSheet()->setCellValue('G' . $row, $i->Particulars);
+                $objPHPExcel->getActiveSheet()->setCellValue('H' . $row, $i->BankName);
+                $objPHPExcel->getActiveSheet()->setCellValue('I' . $row, $i->Currency);
+                $objPHPExcel->getActiveSheet()->setCellValue('J' . $row, $i->location_name);
+                $row++;
+                $no++;
+            }
+        }
+
+        $styleArray = array(
+            'borders' => array(
+                'allborders' => array(
+                    'style' => PHPExcel_Style_Border::BORDER_THIN
+                )
+            )
+        );
+
+        $style_color = array(
+            'color' => array(
+                'rgb' => 'FF0000'
+            )
+        );
+
+        $row    = $row - 1;
+
+        //Setting CELL
+        $objPHPExcel->getActiveSheet()->getStyle('A5:J' . $row)->applyFromArray($styleArray);
+        unset($styleArray);
+        $objPHPExcel->getActiveSheet()->getStyle('A5:J5')->getFill()->applyFromArray(array('type' => PHPExcel_Style_Fill::FILL_SOLID, 'startcolor' => array('rgb' => '68a7d9')));
+        $objPHPExcel->getActiveSheet()->getStyle('A1:J5')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('A5:J' . $row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A5:J' . $row)->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('F5:G' . $row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+
+        $objPHPExcel->getActiveSheet()->getStyle('A3')->getFont()->setBold(false);
+
+
+        $filename = 'VOUCHER_HISTORY_' . time() . '.xls'; //save our workbook as this file name
+
+
+        header('Content-Type: application/vnd.ms-excel'); //mime type
+        header('Content-Disposition: attachment;filename="' . $filename . '"'); //tell browser what's the file name
+        header('Cache-Control: max-age=0'); //no cache
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+        ob_end_clean();
+        $objWriter->save('php://output');
+
+        exit;
+    }
+
+    function ProsesHitungTPP()
     {
         $periode        = $this->input->post("periode");
 
@@ -85,12 +214,24 @@ class TPP extends CI_Controller
                     "total_tpp"                 => $total_tpp,
                     "nilai_disiplin_kerja"      => $nilai_disiplin_kerja,
                     "nilai_produktivitas_kerja" => $nilai_produktivitas_kerja,
+
+                    "dis_kerja_beban_kerja"     => $dis_kerja_beban_kerja,
+                    "dis_kerja_prestasi_kerja"  => $dis_kerja_prestasi_kerja,
+                    "dis_kerja_kondisi_kerja"   => $dis_kerja_kondisi_kerja,
+                    "dis_kerja_kelangkaan_profesi"  => $dis_kerja_kelangkaan_profesi,
+                    "dis_kerja_diterima"            => $dis_kerja_diterima,
+
+                    "prod_kerja_beban_kerja"        => $prod_kerja_beban_kerja,
+                    "prod_kerja_prestasi_kerja"     => $prod_kerja_prestasi_kerja,
+                    "prod_kerja_kondisi_kerja"      => $prod_kerja_kondisi_kerja,
+                    "prod_kerja_kelangkaan_profesi" => $prod_kerja_kelangkaan_profesi,
+                    "prod_kerja_diterima"           => $prod_kerja_diterima,
+
                     "tambahan_tpp"              => $tambahan_tpp,
                     "pengurangan_tpp"           => $pengurang_tpp,
                     "jumlah_tpp_diterima"       => $grand_total
                 );
 
-                $result[]       = $row;
 
 
                 if ($check) {
@@ -105,6 +246,17 @@ class TPP extends CI_Controller
                         "total_tpp"                 => $total_tpp,
                         "nilai_disiplin_kerja"      => $nilai_disiplin_kerja,
                         "nilai_produktivitas_kerja" => $nilai_produktivitas_kerja,
+                        "dis_kerja_beban_kerja"     => $dis_kerja_beban_kerja,
+                        "dis_kerja_prestasi_kerja"  => $dis_kerja_prestasi_kerja,
+                        "dis_kerja_kondisi_kerja"   => $dis_kerja_kondisi_kerja,
+                        "dis_kerja_kelangkaan_profesi"  => $dis_kerja_kelangkaan_profesi,
+                        "dis_kerja_diterima"            => $dis_kerja_diterima,
+
+                        "prod_kerja_beban_kerja"        => $prod_kerja_beban_kerja,
+                        "prod_kerja_prestasi_kerja"     => $prod_kerja_prestasi_kerja,
+                        "prod_kerja_kondisi_kerja"      => $prod_kerja_kondisi_kerja,
+                        "prod_kerja_kelangkaan_profesi" => $prod_kerja_kelangkaan_profesi,
+                        "prod_kerja_diterima"           => $prod_kerja_diterima,
                         "tambahan_tpp"              => $tambahan_tpp,
                         "pengurangan_tpp"           => $pengurang_tpp,
                         "jumlah_tpp_diterima"       => $grand_total
@@ -119,25 +271,42 @@ class TPP extends CI_Controller
                 } else {
                     // INSERT
                     $data       = array(
-                        "id_pegawai"        => $id_pegawai,
-                    "periode"           => $periode,
-                        "tpp_beban_kerja"           => $tpp_beban_kerja,
-                        "tpp_prestasi_kerja"        => $tpp_prestasi_kerja,
-                        "tpp_kondisi_kerja"         => $tpp_kondisi_kerja,
-                        "tpp_kelangkaan_profesi"    => $tpp_kelangkaan_profesi,
-                        "total_tpp"                 => $total_tpp,
-                        "nilai_disiplin_kerja"      => $nilai_disiplin_kerja,
-                        "nilai_produktivitas_kerja" => $nilai_produktivitas_kerja,
-                        "tambahan_tpp"              => $tambahan_tpp,
-                        "pengurangan_tpp"           => $pengurang_tpp,
-                        "jumlah_tpp_diterima"       => $grand_total
+                        "id_pegawai"                    => $id_pegawai,
+                        "periode"                       => $periode,
+                        "tpp_beban_kerja"               => $tpp_beban_kerja,
+                        "tpp_prestasi_kerja"            => $tpp_prestasi_kerja,
+                        "tpp_kondisi_kerja"             => $tpp_kondisi_kerja,
+                        "tpp_kelangkaan_profesi"        => $tpp_kelangkaan_profesi,
+                        "total_tpp"                     => $total_tpp,
+                        "nilai_disiplin_kerja"          => $nilai_disiplin_kerja,
+                        "nilai_produktivitas_kerja"     => $nilai_produktivitas_kerja,
+                        "dis_kerja_beban_kerja"         => $dis_kerja_beban_kerja,
+                        "dis_kerja_prestasi_kerja"      => $dis_kerja_prestasi_kerja,
+                        "dis_kerja_kondisi_kerja"       => $dis_kerja_kondisi_kerja,
+                        "dis_kerja_kelangkaan_profesi"  => $dis_kerja_kelangkaan_profesi,
+                        "dis_kerja_diterima"            => $dis_kerja_diterima,
+
+                        "prod_kerja_beban_kerja"        => $prod_kerja_beban_kerja,
+                        "prod_kerja_prestasi_kerja"     => $prod_kerja_prestasi_kerja,
+                        "prod_kerja_kondisi_kerja"      => $prod_kerja_kondisi_kerja,
+                        "prod_kerja_kelangkaan_profesi" => $prod_kerja_kelangkaan_profesi,
+                        "prod_kerja_diterima"           => $prod_kerja_diterima,
+                        "tambahan_tpp"                  => $tambahan_tpp,
+                        "pengurangan_tpp"               => $pengurang_tpp,
+                        "jumlah_tpp_diterima"           => $grand_total
                     );
 
                     $insert_update     = $this->M_crud->insert("tb_tpp", $data);
                 }
+
+                $row['nama']                    = $item->nama;
+                $row['nama_jabatan']            = $item->nama_jabatan;
+                $row['jumlah_hari_kerja']       = $item->jumlah_hari_kerja . " Hari";
+
+                $result[]       = $row;
+
+                redirect(base_url("TPP/detailTPP/$periode"));
             }
-
-
         } else {
 
             $this->session->set_flashdata('error', 'Data TPP tidak ditemukan, Periksa Kembali Data Capaian Kerja & Rekapitulasi Presensi');
@@ -320,5 +489,32 @@ class TPP extends CI_Controller
             "status"        => $response_status,
             "message"       => $response_message
         ));
+    }
+
+    function tgl_indo($tanggal)
+    {
+        $bulan = array(
+            1 =>   'Januari',
+            'Februari',
+            'Maret',
+            'April',
+            'Mei',
+            'Juni',
+            'Juli',
+            'Agustus',
+            'September',
+            'Oktober',
+            'November',
+            'Desember'
+        );
+
+
+        $pecahkan = explode('-', $tanggal);
+
+        // variabel pecahkan 0 = tanggal
+        // variabel pecahkan 1 = bulan
+        // variabel pecahkan 2 = tahun
+
+        return $bulan[(int)$pecahkan[1]] . ' ' . $pecahkan[0];
     }
 }

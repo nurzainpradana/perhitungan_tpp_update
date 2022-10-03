@@ -22,6 +22,7 @@ class M_tpp extends CI_Model
         SELECT * FROM tb_pegawai p
         JOIN tb_rekapitulasi_presensi rp ON p.id_pegawai = rp.id_pegawai
         JOIN tb_capaian_kerja ck ON ck.id_pegawai = p.id_pegawai
+        JOIN tb_jabatan j ON p.id_jabatan = j.id_jabatan
         JOIN tb_besaran_tpp btpp ON btpp.id_jabatan = p.id_jabatan
 
         WHERE rp.periode = '$periode' AND ck.periode = '$periode'
@@ -44,6 +45,17 @@ class M_tpp extends CI_Model
         $this->db->where("id_besaran_tpp", $id_besaran_tpp);
 
         return $this->db->get()->row();
+    }
+
+    function loadTppByPeriode($periode)
+    {
+        return $this->db->query("
+        SELECT * FROM tb_tpp tpp
+        JOIN tb_pegawai p ON tpp.id_pegawai = p.id_pegawai
+        JOIN tb_jabatan j ON j.id_jabatan = p.id_jabatan
+
+        WHERE tpp.periode = '$periode'
+        ")->result();
     }
 
     function loadJabatanList()
