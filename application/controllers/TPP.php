@@ -1,6 +1,11 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+require 'vendor/autoload.php';
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
 class TPP extends CI_Controller
 {
     function __construct()
@@ -49,111 +54,252 @@ class TPP extends CI_Controller
     {
         $periode        = $this->input->post("periode");
 
-        $this->load->library('Excel');
-
-        $objPHPExcel = new PHPExcel();
-
-        $objPHPExcel->getProperties()->setCreator("IT DEV ZIPCO");
-        $objPHPExcel->getProperties()->setLastModifiedBy("IT DEV ZIPCO");
-        $objPHPExcel->getProperties()->setTitle("VOUCHER HISTORY LIST");
-        // $objPHPExcel->getProperties()->setSubject("Content Subject");
-        // $objPHPExcel->getProperties()->setDescription("Content Description");
-
-        //activate worksheet number 1
-        $objPHPExcel->setActiveSheetIndex(0);
-        //name the worksheet
-        $objPHPExcel->getActiveSheet()->setTitle('VOUCHER HISTORY LIST');
-
-        //Setting Width
-        $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(5);
-        $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(15);
-        $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(30);
-        $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(10);
-        $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(15);
-        $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(40);
-        $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(60);
-        $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(15);
-        $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(15);
-        $objPHPExcel->getActiveSheet()->getColumnDimension('J')->setWidth(30);
+        $result                         = $this->M_tpp->loadTppByPeriode($periode);
+        $periode        = strtoupper($this->tgl_indo($periode));
 
 
-        $objPHPExcel->getActiveSheet()->setCellValue('A1', 'VOUCHER HISTORY LIST');
-        $objPHPExcel->getActiveSheet()->setCellValue('A2', 'ACCOUNTING STORAGE SYSTEM');
-        $objPHPExcel->getActiveSheet()->setCellValue('A3', 'Export Date ' . date("Y-m-d H:i:s"));
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $sheet->setCellValue('A1', 'PERHITUNGAN TAMBAHAN PENGHASILAN KECAMATAN SETU KABUPATEN BEKASI');
+        $sheet->mergeCells('A1:H1');
+        $sheet->setCellValue('A2', "BULAN $periode");
+        $sheet->mergeCells('A2:H2');
 
-        //Header
-        $objPHPExcel->getActiveSheet()->setCellValue('A5', 'NO');
-        $objPHPExcel->getActiveSheet()->setCellValue('B5', 'DATE');
-        $objPHPExcel->getActiveSheet()->setCellValue('C5', 'EMPLOYEE NAME');
-        $objPHPExcel->getActiveSheet()->setCellValue('D5', 'TYPE');
-        $objPHPExcel->getActiveSheet()->setCellValue('E5', 'VOUCHER NO');
-        $objPHPExcel->getActiveSheet()->setCellValue('F5', 'PAYMENT TO');
-        $objPHPExcel->getActiveSheet()->setCellValue('G5', 'PARTICULARS');
-        $objPHPExcel->getActiveSheet()->setCellValue('H5', 'BANK NAME');
-        $objPHPExcel->getActiveSheet()->setCellValue('I5', 'CURRENCY');
-        $objPHPExcel->getActiveSheet()->setCellValue('J5', 'LOCATION');
 
-        $row        = 6;
-        $no         = 1;
+        $sheet->getColumnDimension('A')->setWidth(5);
+        $sheet->getColumnDimension('B')->setWidth(32);
+        $sheet->getColumnDimension('C')->setWidth(32);
+        $sheet->getColumnDimension('D')->setWidth(18);
+        $sheet->getColumnDimension('E')->setWidth(18);
+        $sheet->getColumnDimension('F')->setWidth(18);
+        $sheet->getColumnDimension('G')->setWidth(18);
+        $sheet->getColumnDimension('H')->setWidth(18);
+        $sheet->getColumnDimension('I')->setWidth(18);
+        $sheet->getColumnDimension('J')->setWidth(18);
+        $sheet->getColumnDimension('K')->setWidth(18);
+        $sheet->getColumnDimension('L')->setWidth(18);
+        $sheet->getColumnDimension('M')->setWidth(18);
+        $sheet->getColumnDimension('N')->setWidth(18);
+        $sheet->getColumnDimension('O')->setWidth(18);
+        $sheet->getColumnDimension('P')->setWidth(18);
+        $sheet->getColumnDimension('Q')->setWidth(18);
+        $sheet->getColumnDimension('R')->setWidth(18);
+        $sheet->getColumnDimension('S')->setWidth(18);
+        $sheet->getColumnDimension('T')->setWidth(18);
+        $sheet->getColumnDimension('U')->setWidth(18);
 
-        $data       = $this->M_voucher_history->loadVoucherHistoryList();
+        $sheet->setCellValue("A3", "NO");
+        $sheet->mergeCells('A3:A5');
+        $sheet->setCellValue("B3", "NAMA");
+        $sheet->mergeCells('B3:B5');
+        $sheet->setCellValue("C3", "JABATAN");
+        $sheet->mergeCells('C3:C5');
 
-        if ($data) {
-            foreach ($data as $i) {
-                $objPHPExcel->getActiveSheet()->setCellValue('A' . $row, $no);
-                $objPHPExcel->getActiveSheet()->setCellValue('B' . $row, $i->date);
-                $objPHPExcel->getActiveSheet()->setCellValue('C' . $row, $i->employee_name);
-                $objPHPExcel->getActiveSheet()->setCellValue('D' . $row, $i->type);
-                $objPHPExcel->getActiveSheet()->setCellValue('E' . $row, $i->VoucherNo);
-                $objPHPExcel->getActiveSheet()->setCellValue('F' . $row, $i->PaymentTo);
-                $objPHPExcel->getActiveSheet()->setCellValue('G' . $row, $i->Particulars);
-                $objPHPExcel->getActiveSheet()->setCellValue('H' . $row, $i->BankName);
-                $objPHPExcel->getActiveSheet()->setCellValue('I' . $row, $i->Currency);
-                $objPHPExcel->getActiveSheet()->setCellValue('J' . $row, $i->location_name);
-                $row++;
-                $no++;
-            }
+        $sheet->setCellValue("D3", "BESARAN TPP");
+        $sheet->mergeCells('D3:H3');
+        $sheet->mergeCells("D4:H4");
+
+        $sheet->setCellValue("D5", "BEBAN KERJA");
+        $sheet->setCellValue("E5", "PRESTASI KERJA");
+        $sheet->setCellValue("F5", "KONDISI KERJA");
+        $sheet->setCellValue("G5", "KELANGKAAN PROFESI");
+        $sheet->setCellValue("H5", "TOTAL TPP");
+
+        $sheet->getStyle("D5")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
+        $sheet->getStyle("D5")->getFill()->getStartColor()->setARGB('FFC000');
+
+        $sheet->getStyle("E5")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
+        $sheet->getStyle("E5")->getFill()->getStartColor()->setARGB('00B0F0');
+
+        $sheet->getStyle("F5")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
+        $sheet->getStyle("F5")->getFill()->getStartColor()->setARGB('92D050');
+
+        $sheet->getStyle("G5")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
+        $sheet->getStyle("G5")->getFill()->getStartColor()->setARGB('FFFF00');
+
+
+        $sheet->setCellValue("I3", "DISIPLIN KERJA");
+        $sheet->mergeCells('I3:N3');
+        $sheet->setCellValue("J4", "40%");
+        $sheet->mergeCells("J4:N4");
+
+        $sheet->setCellValue("I4", "NILAI");
+        $sheet->mergeCells("I4:I5");
+
+
+        $sheet->setCellValue("J5", "BEBAN KERJA");
+        $sheet->setCellValue("K5", "PRESTASI KERJA");
+        $sheet->setCellValue("L5", "KONDISI KERJA");
+        $sheet->setCellValue("M5", "KELANGKAAN PROFESI");
+        $sheet->setCellValue("N5", "DITERIMA");
+
+        $sheet->getStyle("J5")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
+        $sheet->getStyle("J5")->getFill()->getStartColor()->setARGB('FFC000');
+
+        $sheet->getStyle("K5")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
+        $sheet->getStyle("K5")->getFill()->getStartColor()->setARGB('00B0F0');
+
+        $sheet->getStyle("L5")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
+        $sheet->getStyle("L5")->getFill()->getStartColor()->setARGB('92D050');
+
+        $sheet->getStyle("M5")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
+        $sheet->getStyle("M5")->getFill()->getStartColor()->setARGB('FFFF00');
+
+
+        $sheet->setCellValue("O3", "PRODUKTIVITAS KERJA");
+        $sheet->mergeCells('O3:U3');
+        $sheet->setCellValue("P4", "60%");
+        $sheet->mergeCells("P4:U4");
+
+        $sheet->setCellValue("O4", "NILAI");
+        $sheet->mergeCells("O4:O5");
+
+
+        $sheet->setCellValue("O5", "BEBAN KERJA");
+        $sheet->setCellValue("P5", "PRESTASI KERJA");
+        $sheet->setCellValue("Q5", "KONDISI KERJA");
+        $sheet->setCellValue("R5", "KELANGKAAN PROFESI");
+        $sheet->setCellValue("S5", "DITERIMA");
+
+        $sheet->getStyle("O5")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
+        $sheet->getStyle("O5")->getFill()->getStartColor()->setARGB('FFC000');
+
+        $sheet->getStyle("P5")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
+        $sheet->getStyle("P5")->getFill()->getStartColor()->setARGB('00B0F0');
+
+        $sheet->getStyle("Q5")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
+        $sheet->getStyle("Q5")->getFill()->getStartColor()->setARGB('92D050');
+
+        $sheet->getStyle("R5")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
+        $sheet->getStyle("R5")->getFill()->getStartColor()->setARGB('FFFF00');
+
+
+        // $sheet->getStyle("A3:H6")->applyFromArray($styleArray);
+
+        $row    = 1;
+        foreach (range('A', 'U') as $col) {
+            $sheet->setCellValue("$col" . "6", $row);
+            $row++;
         }
 
-        $styleArray = array(
-            'borders' => array(
-                'allborders' => array(
-                    'style' => PHPExcel_Style_Border::BORDER_THIN
-                )
+        // $sheet->setCellValue("A6", "1");
+        // $sheet->setCellValue("B6", "2");
+        // $sheet->setCellValue("C6", "3");
+        // $sheet->setCellValue("D6", "4");
+        // $sheet->setCellValue("E6", "5");
+        // $sheet->setCellValue("F6", "6");
+        // $sheet->setCellValue("G6", "7");
+        // $sheet->setCellValue("H6", "8");
+
+        $styleArray = [
+            'font'  => array(
+                'size'  => 11,
+                'bold'  => true,
+                'name'  => 'Bookman Old Style'
             )
-        );
+        ];
 
-        $style_color = array(
-            'color' => array(
-                'rgb' => 'FF0000'
+        $sheet->getStyle('A6:U6')->applyFromArray($styleArray);
+        $sheet->getStyle('A6:U6')->getAlignment()->setHorizontal('center');
+
+        $styleArray = [
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_MEDIUM,
+                ],
+            ],
+            'font'  => array(
+                'size'  => 11,
+                'name'  => 'Bookman Old Style'
             )
-        );
+        ];
 
-        $row    = $row - 1;
-
-        //Setting CELL
-        $objPHPExcel->getActiveSheet()->getStyle('A5:J' . $row)->applyFromArray($styleArray);
-        unset($styleArray);
-        $objPHPExcel->getActiveSheet()->getStyle('A5:J5')->getFill()->applyFromArray(array('type' => PHPExcel_Style_Fill::FILL_SOLID, 'startcolor' => array('rgb' => '68a7d9')));
-        $objPHPExcel->getActiveSheet()->getStyle('A1:J5')->getFont()->setBold(true);
-        $objPHPExcel->getActiveSheet()->getStyle('A5:J' . $row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $objPHPExcel->getActiveSheet()->getStyle('A5:J' . $row)->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
-        $objPHPExcel->getActiveSheet()->getStyle('F5:G' . $row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
-
-        $objPHPExcel->getActiveSheet()->getStyle('A3')->getFont()->setBold(false);
+        $sheet->getStyle("A3:U6")->applyFromArray($styleArray);
+        $sheet->getStyle("A3:U6")->getAlignment()->setWrapText(true);
 
 
-        $filename = 'VOUCHER_HISTORY_' . time() . '.xls'; //save our workbook as this file name
+        $row        = 7;
+        $no         = 1;
+
+        foreach ($result as $item) {
+
+            $sheet->setCellValue("A$row", $no);
+            $sheet->setCellValue("B$row", $item->nama);
+            $sheet->setCellValue("C$row", $item->nama_jabatan);
+            $sheet->setCellValue("D$row", $item->tpp_beban_kerja > 0 ? $item->tpp_beban_kerja : '-');
+            $sheet->setCellValue("E$row", $item->tpp_prestasi_kerja);
+            $sheet->setCellValue("F$row", $item->tpp_kondisi_kerja);
+            $sheet->setCellValue("G$row", $item->tpp_kelangkaan_profesi > 0 ? $item->tpp_kelangkaan_profesi : '-');
+            $sheet->setCellValue("H$row", $item->total_tpp);
+
+            print_r($item);
+
+            $no++;
+            $row++;
+        }
+
+        $sheet->getStyle("D7:U$row")->getNumberFormat()->setFormatCode('#,##0.00');
+
+        $row--;
 
 
-        header('Content-Type: application/vnd.ms-excel'); //mime type
-        header('Content-Disposition: attachment;filename="' . $filename . '"'); //tell browser what's the file name
-        header('Cache-Control: max-age=0'); //no cache
-        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+
+
+        $styleArray = [
+            'font'  => array(
+                'size'  => 11,
+                'bold'  => true,
+                'name'  => 'Bookman Old Style'
+            )
+        ];
+
+        $sheet->getStyle('A1:H2')->applyFromArray($styleArray);
+        $sheet->getStyle('A1:U5')->getAlignment()->setHorizontal('center');
+        $sheet->getStyle('A1:U5')->getAlignment()->setVertical('center');
+
+
+        $styleArray = [
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                ],
+            ],
+            'font'  => array(
+                'size'  => 11,
+                'name'  => 'Bookman Old Style'
+            )
+        ];
+
+        $sheet->getStyle("A7:H$row")->applyFromArray($styleArray);
+        $sheet->getStyle("A7:H$row")->getAlignment()->setWrapText(true);
+
+
+        $sheet->getStyle("A7:A$row")->getAlignment()->setHorizontal('center');
+        $sheet->getStyle("A7:A$row")->getAlignment()->setVertical('center');
+
+
+        $sheet->getStyle("B7:C$row")->getAlignment()->setHorizontal('left');
+        $sheet->getStyle("B7:C$row")->getAlignment()->setVertical('center');
+
+        $sheet->getStyle("D7:H$row")->getAlignment()->setHorizontal('right');
+        $sheet->getStyle("D7:H$row")->getAlignment()->setVertical('center');
+
+
+
+
+
+
+        $writer = new Xlsx($spreadsheet);
+        $writer->save('hello world.xlsx');
+
+
+        $filename = date('Y-m-d-His') . '-Data-User';
         ob_end_clean();
-        $objWriter->save('php://output');
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename=' . $filename . '.xlsx');
+        header('Cache-Control: max-age=0');
 
-        exit;
+        $writer->save('php://output');
     }
 
     function ProsesHitungTPP()
@@ -380,6 +526,7 @@ class TPP extends CI_Controller
         $kondisi_kerja      = $this->input->post("kondisi_kerja");
         $kelangkaan_profesi = $this->input->post("kelangkaan_profesi");
         $tambahan_tpp       = $this->input->post("tambahan_tpp");
+
 
         $data           = array(
             "id_jabatan"            => $id_jabatan,

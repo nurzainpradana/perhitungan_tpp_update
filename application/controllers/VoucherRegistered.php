@@ -360,6 +360,8 @@ class VoucherRegistered extends CI_Controller
             )
         );
 
+        
+
         $style_color = array(
             'color' => array(
                 'rgb' => 'FF0000'
