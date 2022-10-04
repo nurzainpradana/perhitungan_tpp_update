@@ -54,16 +54,16 @@ class TPP extends CI_Controller
     {
         $periode        = $this->input->post("periode");
 
-        $result                         = $this->M_tpp->loadTppByPeriode($periode);
+        $result         = $this->M_tpp->loadTppByPeriode($periode);
         $periode        = strtoupper($this->tgl_indo($periode));
 
 
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
         $sheet->setCellValue('A1', 'PERHITUNGAN TAMBAHAN PENGHASILAN KECAMATAN SETU KABUPATEN BEKASI');
-        $sheet->mergeCells('A1:H1');
+        $sheet->mergeCells('A1:W1');
         $sheet->setCellValue('A2', "BULAN $periode");
-        $sheet->mergeCells('A2:H2');
+        $sheet->mergeCells('A2:W2');
 
 
         $sheet->getColumnDimension('A')->setWidth(5);
@@ -87,6 +87,8 @@ class TPP extends CI_Controller
         $sheet->getColumnDimension('S')->setWidth(18);
         $sheet->getColumnDimension('T')->setWidth(18);
         $sheet->getColumnDimension('U')->setWidth(18);
+        $sheet->getColumnDimension('V')->setWidth(18);
+        $sheet->getColumnDimension('W')->setWidth(18);
 
         $sheet->setCellValue("A3", "NO");
         $sheet->mergeCells('A3:A5');
@@ -147,37 +149,53 @@ class TPP extends CI_Controller
 
 
         $sheet->setCellValue("O3", "PRODUKTIVITAS KERJA");
-        $sheet->mergeCells('O3:U3');
+        $sheet->mergeCells('O3:T3');
         $sheet->setCellValue("P4", "60%");
-        $sheet->mergeCells("P4:U4");
+        $sheet->mergeCells("P4:T4");
 
         $sheet->setCellValue("O4", "NILAI");
         $sheet->mergeCells("O4:O5");
 
 
-        $sheet->setCellValue("O5", "BEBAN KERJA");
-        $sheet->setCellValue("P5", "PRESTASI KERJA");
-        $sheet->setCellValue("Q5", "KONDISI KERJA");
-        $sheet->setCellValue("R5", "KELANGKAAN PROFESI");
-        $sheet->setCellValue("S5", "DITERIMA");
-
-        $sheet->getStyle("O5")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
-        $sheet->getStyle("O5")->getFill()->getStartColor()->setARGB('FFC000');
+        $sheet->setCellValue("P5", "BEBAN KERJA");
+        $sheet->setCellValue("Q5", "PRESTASI KERJA");
+        $sheet->setCellValue("R5", "KONDISI KERJA");
+        $sheet->setCellValue("S5", "KELANGKAAN PROFESI");
+        $sheet->setCellValue("T5", "DITERIMA");
 
         $sheet->getStyle("P5")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
-        $sheet->getStyle("P5")->getFill()->getStartColor()->setARGB('00B0F0');
+        $sheet->getStyle("P5")->getFill()->getStartColor()->setARGB('FFC000');
 
         $sheet->getStyle("Q5")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
-        $sheet->getStyle("Q5")->getFill()->getStartColor()->setARGB('92D050');
+        $sheet->getStyle("Q5")->getFill()->getStartColor()->setARGB('00B0F0');
 
         $sheet->getStyle("R5")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
-        $sheet->getStyle("R5")->getFill()->getStartColor()->setARGB('FFFF00');
+        $sheet->getStyle("R5")->getFill()->getStartColor()->setARGB('92D050');
+
+        $sheet->getStyle("S5")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
+        $sheet->getStyle("S5")->getFill()->getStartColor()->setARGB('FFFF00');
+
+
+        $sheet->setCellValue("U3", "TAMBAHAN TPP");
+        $sheet->setCellValue("U4", "Pj / Plt / JABATAN FUNGSIONAL BUKAN PENYETARAAN DENGAN TUGAS TAMBAHAN SEBAGAI KOORDINATOR / SUBKOORDINATOR");
+        $sheet->mergeCells("U4:U5");
+
+        $sheet->setCellValue("V3", "PENGURANGAN TPP");
+        $sheet->setCellValue("V4", "KELEBIHAN BAYAR DESEMBER / TERJARING GERAKAN DISIPLIN APARATUR /MANIPULASI DATA / LHKPN / LHKASN");
+
+        $sheet->mergeCells("V4:V5");
+
+
+
+        $sheet->setCellValue("W3", "JUMLAH TPP DITERIMA");
+        $sheet->mergeCells("W3:W5");
+
 
 
         // $sheet->getStyle("A3:H6")->applyFromArray($styleArray);
 
         $row    = 1;
-        foreach (range('A', 'U') as $col) {
+        foreach (range('A', 'W') as $col) {
             $sheet->setCellValue("$col" . "6", $row);
             $row++;
         }
@@ -199,8 +217,10 @@ class TPP extends CI_Controller
             )
         ];
 
-        $sheet->getStyle('A6:U6')->applyFromArray($styleArray);
-        $sheet->getStyle('A6:U6')->getAlignment()->setHorizontal('center');
+        $sheet->getStyle('A6:W6')->applyFromArray($styleArray);
+        $sheet->getStyle('A6:W6')->getAlignment()->setHorizontal('center');
+
+
 
         $styleArray = [
             'borders' => [
@@ -214,12 +234,27 @@ class TPP extends CI_Controller
             )
         ];
 
-        $sheet->getStyle("A3:U6")->applyFromArray($styleArray);
-        $sheet->getStyle("A3:U6")->getAlignment()->setWrapText(true);
+        $sheet->getStyle("A3:W6")->applyFromArray($styleArray);
+        $sheet->getStyle("A3:W6")->getAlignment()->setWrapText(true);
+
+
+        $styleArray = [
+            'font'  => array(
+                'size'  => 7,
+                'name'  => 'Bookman Old Style'
+            )
+        ];
+
+        $sheet->getStyle('U4:V5')->applyFromArray($styleArray);
+
+        $sheet->getRowDimension('3')->setRowHeight(30);
+        $sheet->getRowDimension('4')->setRowHeight(30);
+        $sheet->getRowDimension('5')->setRowHeight(30);
 
 
         $row        = 7;
         $no         = 1;
+        
 
         foreach ($result as $item) {
 
@@ -231,6 +266,21 @@ class TPP extends CI_Controller
             $sheet->setCellValue("F$row", $item->tpp_kondisi_kerja);
             $sheet->setCellValue("G$row", $item->tpp_kelangkaan_profesi > 0 ? $item->tpp_kelangkaan_profesi : '-');
             $sheet->setCellValue("H$row", $item->total_tpp);
+            $sheet->setCellValue("I$row", $item->nilai_disiplin_kerja . " %");
+            $sheet->setCellValue("J$row", $item->dis_kerja_beban_kerja > 0 ? $item->dis_kerja_beban_kerja : '-');
+            $sheet->setCellValue("K$row", $item->dis_kerja_prestasi_kerja);
+            $sheet->setCellValue("L$row", $item->dis_kerja_kondisi_kerja);
+            $sheet->setCellValue("M$row", $item->dis_kerja_kelangkaan_profesi > 0 ? $item->dis_kerja_kelangkaan_profesi : '-');
+            $sheet->setCellValue("N$row", $item->dis_kerja_diterima);
+            $sheet->setCellValue("O$row", $item->nilai_produktivitas_kerja . " %");
+            $sheet->setCellValue("P$row", $item->prod_kerja_beban_kerja > 0 ? $item->prod_kerja_beban_kerja : '-');
+            $sheet->setCellValue("Q$row", $item->prod_kerja_prestasi_kerja);
+            $sheet->setCellValue("R$row", $item->prod_kerja_kondisi_kerja);
+            $sheet->setCellValue("S$row", $item->prod_kerja_kelangkaan_profesi > 0 ? $item->prod_kerja_kelangkaan_profesi : '-');
+            $sheet->setCellValue("T$row", $item->prod_kerja_diterima);
+            $sheet->setCellValue("U$row", $item->tambahan_tpp);
+            $sheet->setCellValue("V$row", $item->pengurangan_tpp);
+            $sheet->setCellValue("W$row", $item->jumlah_tpp_diterima);
 
             print_r($item);
 
@@ -238,7 +288,7 @@ class TPP extends CI_Controller
             $row++;
         }
 
-        $sheet->getStyle("D7:U$row")->getNumberFormat()->setFormatCode('#,##0.00');
+        $sheet->getStyle("D7:W$row")->getNumberFormat()->setFormatCode('#,##0.00');
 
         $row--;
 
@@ -254,8 +304,8 @@ class TPP extends CI_Controller
         ];
 
         $sheet->getStyle('A1:H2')->applyFromArray($styleArray);
-        $sheet->getStyle('A1:U5')->getAlignment()->setHorizontal('center');
-        $sheet->getStyle('A1:U5')->getAlignment()->setVertical('center');
+        $sheet->getStyle('A1:W5')->getAlignment()->setHorizontal('center');
+        $sheet->getStyle('A1:W5')->getAlignment()->setVertical('center');
 
 
         $styleArray = [
@@ -270,8 +320,8 @@ class TPP extends CI_Controller
             )
         ];
 
-        $sheet->getStyle("A7:H$row")->applyFromArray($styleArray);
-        $sheet->getStyle("A7:H$row")->getAlignment()->setWrapText(true);
+        $sheet->getStyle("A7:W$row")->applyFromArray($styleArray);
+        $sheet->getStyle("A7:W$row")->getAlignment()->setWrapText(true);
 
 
         $sheet->getStyle("A7:A$row")->getAlignment()->setHorizontal('center');
@@ -281,8 +331,8 @@ class TPP extends CI_Controller
         $sheet->getStyle("B7:C$row")->getAlignment()->setHorizontal('left');
         $sheet->getStyle("B7:C$row")->getAlignment()->setVertical('center');
 
-        $sheet->getStyle("D7:H$row")->getAlignment()->setHorizontal('right');
-        $sheet->getStyle("D7:H$row")->getAlignment()->setVertical('center');
+        $sheet->getStyle("D7:W$row")->getAlignment()->setHorizontal('right');
+        $sheet->getStyle("D7:W$row")->getAlignment()->setVertical('center');
 
 
 
