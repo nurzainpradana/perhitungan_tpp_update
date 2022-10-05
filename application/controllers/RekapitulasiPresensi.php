@@ -87,10 +87,32 @@ class RekapitulasiPresensi extends CI_Controller
         $jumlah_hari_kerja          = $this->input->post("jumlah_hari_kerja");
         $tidak_hadir                = $this->input->post("tidak_hadir");
         $dl_pc                      = $this->input->post("dl_pc");
+        $tidak_hadir_apel           = $this->input->post("tidak_hadir_apel");
         $tidak_hadir_rapat          = $this->input->post("tidak_hadir_rapat");
         $pengurangan_tpp            = $this->input->post("pengurangan_tpp");
-        $presentase_disiplin_kerja  = $this->input->post("presentase_disiplin_kerja");
+        $penambahan_tpp             = $this->input->post("penambahan_tpp");
 
+        $nilai_tidak_hadir      = 0;
+        if ($tidak_hadir <= 22) {
+            $nilai_tidak_hadir      = $tidak_hadir * 3;
+        } else if ($tidak_hadir > 22) {
+            $nilai_tidak_hadir      = 100;
+        }
+
+        $nilai_dl_pc    = 0;
+        $nilai          = 0;
+        for ($i = 450; $i < 9000; $i + 450) {
+            if ($dl_pc < $i) {
+                $nilai_dl_pc    = $nilai;
+                break;
+            }
+            $nilai + 3;
+        }
+
+        $nilai_tidak_hadir_apel             = $tidak_hadir_apel * 0.2;
+        $nilai_tidak_hadir_rapat            = $tidak_hadir_rapat;
+        $total_pengurangan_tpp_dis_kerja    = $nilai_tidak_hadir + $nilai_dl_pc + $nilai_tidak_hadir_apel + $nilai_tidak_hadir_rapat;
+        $presentase_disiplin_kerja          = (100 - $total_pengurangan_tpp_dis_kerja) / 100;
 
         $data           = array(
             "id_pegawai"                    => $id_pegawai,
@@ -99,7 +121,15 @@ class RekapitulasiPresensi extends CI_Controller
             "jumlah_tidak_hadir"            => $tidak_hadir,
             "jumlah_dl_pc"                  => $dl_pc,
             "jumlah_tidak_hadir_rapat"      => $tidak_hadir_rapat,
+            "jumlah_tidak_hadir_apel"       => $tidak_hadir_apel,
+
+            "nilai_tidak_hadir"             => $nilai_tidak_hadir,
+            "nilai_dl_pc"                   => $nilai_dl_pc,
+            "nilai_tidak_hadir_rapat"       => $nilai_tidak_hadir_rapat,
+            "nilai_tidak_hadir_apel"        => $nilai_tidak_hadir_apel,
+
             "total_pengurangan_tpp"         => $pengurangan_tpp,
+            "total_penambahan_tpp"          => $penambahan_tpp,
             "nilai_disiplin_kerja"          => $presentase_disiplin_kerja
         );
 

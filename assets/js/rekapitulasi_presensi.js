@@ -42,22 +42,17 @@ $(document).ready(function () {
 	});
 
 	$("#btnSave").click(function (e) {
-		checkEmptyInput("#inputPresentaseDisiplinKerja");
-		checkEmptyInput("#inputPenguranganTPP");
-		checkEmptyInput("#inputTidakHadirRapat");
-		checkEmptyInput("#inputDlPc");
-		checkEmptyInput("#inputTidakHadir");
-		checkEmptyInput("#inputJumlahHariKerja");
-		checkEmptyInput("#inputPegawai");
-
 		if (
-			checkEmptyInput("#inputPresentaseDisiplinKerja") &&
-			checkEmptyInput("#inputPenguranganTPP") &&
-			checkEmptyInput("#inputTidakHadirRapat") &&
-			checkEmptyInput("#inputDlPc") &&
-			checkEmptyInput("#inputTidakHadir") &&
-			checkEmptyInput("#inputJumlahHariKerja") &&
-			checkEmptyInput("#inputPegawai")
+			checkEmptyInputWithMessageArray([
+				"#inputPenguranganTPP",
+				"#inputPenambahanTPP",
+				"#inputTidakHadirApel",
+				"#inputTidakHadirRapat",
+				"#inputDlPc",
+				"#inputTidakHadir",
+				"#inputJumlahHariKerja",
+				"#inputPegawai",
+			])
 		) {
 			$.ajax({
 				url: baseUrl + "/RekapitulasiPresensi/Add",

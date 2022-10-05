@@ -95,17 +95,25 @@
                                             </div>
                                             <div class="col-4">
                                                 <div class="form-group">
-                                                    <label for="exampleSelectBorder">Pengurangan TPP <span class="text-danger">*</span></label>
-                                                    <input name="pengurangan_tpp" type="number" class="form-control form-control-border border-width-2" id="inputPenguranganTPP" autocomplete="off" min="0" max="100" required placeholder="Masukkan Pengurangan TPP">
+                                                    <label for="exampleSelectBorder">Tidak Hadir Apel <span class="text-danger">*</span></label>
+                                                    <input name="tidak_hadir_apel" type="number" class="form-control form-control-border border-width-2" id="inputTidakHadirApel" autocomplete="off" min="0" max="100" required placeholder="Masukkan Tidak Hadir Apel (Hari)">
                                                     <span class='form-control-feedback text-danger'></span>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
+
                                             <div class="col-4">
                                                 <div class="form-group">
-                                                    <label for="exampleSelectBorder">Presentase Disiplin Kerja<span class="text-danger">*</span></label>
-                                                    <input name="presentase_disiplin_kerja" type="number" class="form-control form-control-border border-width-2" id="inputPresentaseDisiplinKerja" autocomplete="off" min="0" max="100" required placeholder="Masukkan Presentase Disiplin Kerja (%)">
+                                                    <label for="exampleSelectBorder">Penambahan TPP <span class="text-danger">*</span></label>
+                                                    <input name="penambahan_tpp" type="number" class="form-control form-control-border border-width-2" id="inputPenambahanTPP" autocomplete="off" min="0" max="100" required placeholder="Masukkan Penambahan TPP">
+                                                    <span class='form-control-feedback text-danger'></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <div class="form-group">
+                                                    <label for="exampleSelectBorder">Pengurangan TPP <span class="text-danger">*</span></label>
+                                                    <input name="pengurangan_tpp" type="number" class="form-control form-control-border border-width-2" id="inputPenguranganTPP" autocomplete="off" min="0" max="100" required placeholder="Masukkan Pengurangan TPP">
                                                     <span class='form-control-feedback text-danger'></span>
                                                 </div>
                                             </div>
