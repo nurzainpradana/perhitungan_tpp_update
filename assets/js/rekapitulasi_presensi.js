@@ -88,24 +88,17 @@ $(document).ready(function () {
 	});
 
 	$("#btnUpdate").click(function (e) {
-		checkEmptyInput("#inputPresentaseDisiplinKerja");
-		checkEmptyInput("#inputPenguranganTPP");
-		checkEmptyInput("#inputTidakHadirRapat");
-		checkEmptyInput("#inputDlPc");
-		checkEmptyInput("#inputTidakHadir");
-		checkEmptyInput("#inputJumlahHariKerja");
-		checkEmptyInput("#inputPegawai");
-		checkEmptyInput("#inputPeriode");
-
 		if (
-			checkEmptyInput("#inputPresentaseDisiplinKerja") &&
-			checkEmptyInput("#inputPenguranganTPP") &&
-			checkEmptyInput("#inputTidakHadirRapat") &&
-			checkEmptyInput("#inputDlPc") &&
-			checkEmptyInput("#inputTidakHadir") &&
-			checkEmptyInput("#inputJumlahHariKerja") &&
-			checkEmptyInput("#inputPegawai") &&
-			checkEmptyInput("#inputPeriode")
+			checkEmptyInputWithMessageArray([
+				"#inputPenguranganTPP",
+				"#inputPenambahanTPP",
+				"#inputTidakHadirApel",
+				"#inputTidakHadirRapat",
+				"#inputDlPc",
+				"#inputTidakHadir",
+				"#inputJumlahHariKerja",
+				"#inputPegawai",
+			])
 		) {
 			$.ajax({
 				url: baseUrl + "/RekapitulasiPresensi/Update",
@@ -202,8 +195,9 @@ function editNilai(id) {
 				$("#inputTidakHadir").val(data.jumlah_tidak_hadir);
 				$("#inputDlPc").val(data.jumlah_dl_pc);
 				$("#inputTidakHadirRapat").val(data.jumlah_tidak_hadir_rapat);
+				$("#inputTidakHadirApel").val(data.jumlah_tidak_hadir_apel);
 				$("#inputPenguranganTPP").val(data.total_pengurangan_tpp);
-				$("#inputPresentaseDisiplinKerja").val(data.nilai_disiplin_kerja);
+				$("#inputPenambahanTPP").val(data.total_penambahan_tpp);
 
 				$("#inputPegawai").attr("readonly", "readonly");
 				$("#inputPeriode").attr("readonly", "readonly");

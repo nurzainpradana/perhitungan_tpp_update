@@ -400,7 +400,7 @@ class TPP extends CI_Controller
                 $tambahan_tpp                   = $item->tambahan_tpp;
                 $pengurang_tpp                  = $item->total_pengurangan_tpp;
 
-                $grand_total                    = $total_tpp + $dis_kerja_diterima + $prod_kerja_diterima + $tambahan_tpp + $pengurang_tpp;
+                $grand_total                    = $dis_kerja_diterima + $prod_kerja_diterima + $tambahan_tpp + $pengurang_tpp;
 
                 $row       = array(
                     "tpp_beban_kerja"           => $tpp_beban_kerja,
@@ -500,9 +500,9 @@ class TPP extends CI_Controller
                 $row['jumlah_hari_kerja']       = $item->jumlah_hari_kerja . " Hari";
 
                 $result[]       = $row;
-
-                redirect(base_url("TPP/detailTPP/$periode"));
             }
+
+            redirect(base_url("TPP/detailTPP/$periode"));
         } else {
 
             $this->session->set_flashdata('error', 'Data TPP tidak ditemukan, Periksa Kembali Data Capaian Kerja & Rekapitulasi Presensi');

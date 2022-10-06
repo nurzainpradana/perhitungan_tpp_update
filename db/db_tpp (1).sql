@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 05, 2022 at 08:25 AM
+-- Generation Time: Oct 06, 2022 at 03:01 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 7.4.29
 
@@ -67,7 +67,8 @@ CREATE TABLE `tb_besaran_tpp` (
 
 INSERT INTO `tb_besaran_tpp` (`id_besaran_tpp`, `id_jabatan`, `beban_kerja`, `prestasi_kerja`, `kondisi_kerja`, `kelangkaan_profesi`, `tambahan_tpp`) VALUES
 (2, 2, 8715000, 11205000, 4980000, 0, 0),
-(3, 1, 11340000, 14580000, 6480000, 0, 0);
+(3, 1, 11340000, 14580000, 6480000, 0, 0),
+(4, 19, 2065000, 2655000, 1180000, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -79,7 +80,7 @@ CREATE TABLE `tb_capaian_kerja` (
   `id_capaian_kinerja` int(30) NOT NULL,
   `periode` varchar(7) DEFAULT '',
   `id_pegawai` int(30) DEFAULT NULL,
-  `nilai_produktivitas_kerja` int(5) DEFAULT NULL,
+  `nilai_produktivitas_kerja` decimal(10,2) DEFAULT NULL,
   `id_approval` int(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -88,9 +89,10 @@ CREATE TABLE `tb_capaian_kerja` (
 --
 
 INSERT INTO `tb_capaian_kerja` (`id_capaian_kinerja`, `periode`, `id_pegawai`, `nilai_produktivitas_kerja`, `id_approval`) VALUES
-(3, '2022-09', 18, 99, NULL),
-(4, '2022-08', 18, 97, NULL),
-(5, '2022-10', 2, 100, NULL);
+(3, '2022-09', 18, '99.00', NULL),
+(4, '2022-08', 18, '97.00', NULL),
+(5, '2022-10', 2, '100.00', NULL),
+(9, '2022-10', 25, '54.55', NULL);
 
 -- --------------------------------------------------------
 
@@ -218,8 +220,8 @@ CREATE TABLE `tb_rekapitulasi_presensi` (
   `jumlah_tidak_hadir` int(2) DEFAULT NULL,
   `jumlah_dl_pc` int(10) DEFAULT NULL,
   `jumlah_tidak_hadir_rapat` int(10) DEFAULT NULL,
-  `total_pengurangan_tpp` int(10) DEFAULT NULL,
-  `nilai_disiplin_kerja` int(5) DEFAULT NULL,
+  `total_pengurangan_tpp` decimal(10,2) DEFAULT NULL,
+  `nilai_disiplin_kerja` decimal(10,2) DEFAULT NULL,
   `id_approval` int(30) DEFAULT NULL,
   `total_penambahan_tpp` int(11) NOT NULL DEFAULT 0,
   `nilai_dl_pc` int(11) NOT NULL,
@@ -238,12 +240,13 @@ INSERT INTO `tb_rekapitulasi_presensi` (`id_rekapitulasi_presensi`, `periode`, `
 (1, '2022-09', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, 0, 0, 0, 0, 0),
 (2, '2022-09', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, 0, 0, 0, 0, 0),
 (3, '2022-09', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, 0, 0, 0, 0, 0),
-(4, '2022-09', NULL, 22, 0, NULL, 0, 0, 100, NULL, 0, 0, 0, 0, 0, 0, 0),
-(5, '2022-09', NULL, 22, 0, NULL, 0, 0, 100, NULL, 0, 0, 0, 0, 0, 0, 0),
-(6, '2022-09', 5, 22, 0, NULL, 0, 0, 100, NULL, 0, 0, 0, 0, 0, 0, 0),
-(8, '2022-10', 18, 22, 2, 10, 3, 600000, 70, NULL, 0, 0, 0, 0, 0, 0, 0),
-(9, '2022-10', 2, 22, 0, 0, 0, 0, 100, NULL, 0, 0, 0, 0, 0, 0, 0),
-(10, '2022-10', 22, 22, 3, 5, 10, 200000, 1, NULL, 300000, 0, 9, 10, 1, 5, 0);
+(4, '2022-09', NULL, 22, 0, NULL, 0, '0.00', '100.00', NULL, 0, 0, 0, 0, 0, 0, 0),
+(5, '2022-09', NULL, 22, 0, NULL, 0, '0.00', '100.00', NULL, 0, 0, 0, 0, 0, 0, 0),
+(6, '2022-09', 5, 22, 0, NULL, 0, '0.00', '100.00', NULL, 0, 0, 0, 0, 0, 0, 0),
+(8, '2022-10', 18, 22, 2, 10, 3, '600000.00', '70.00', NULL, 0, 0, 0, 0, 0, 0, 0),
+(9, '2022-10', 2, 22, 0, 0, 0, '0.00', '100.00', NULL, 0, 0, 0, 0, 0, 0, 0),
+(10, '2022-10', 22, 22, 3, 5, 10, '200000.00', '1.00', NULL, 300000, 0, 9, 10, 1, 5, 0),
+(11, '2022-10', 25, 22, 3, 2693, 0, '0.00', '76.00', NULL, 0, 15, 9, 0, 0, 0, 24);
 
 -- --------------------------------------------------------
 
@@ -255,26 +258,26 @@ CREATE TABLE `tb_tpp` (
   `id_tpp` int(30) NOT NULL,
   `periode` varchar(7) DEFAULT '',
   `id_pegawai` int(30) DEFAULT NULL,
-  `tpp_beban_kerja` int(20) DEFAULT 0,
-  `tpp_prestasi_kerja` int(20) DEFAULT 0,
-  `tpp_kondisi_kerja` int(20) DEFAULT 0,
-  `tpp_kelangkaan_profesi` int(20) DEFAULT 0,
-  `total_tpp` int(20) DEFAULT 0,
-  `nilai_disiplin_kerja` int(5) DEFAULT 0,
-  `nilai_produktivitas_kerja` int(5) DEFAULT 0,
-  `dis_kerja_beban_kerja` int(11) NOT NULL DEFAULT 0,
-  `dis_kerja_prestasi_kerja` int(11) NOT NULL DEFAULT 0,
-  `dis_kerja_kondisi_kerja` int(11) NOT NULL DEFAULT 0,
-  `dis_kerja_kelangkaan_profesi` int(11) NOT NULL DEFAULT 0,
-  `dis_kerja_diterima` int(11) NOT NULL DEFAULT 0,
-  `prod_kerja_beban_kerja` int(11) NOT NULL DEFAULT 0,
-  `prod_kerja_prestasi_kerja` int(11) NOT NULL DEFAULT 0,
-  `prod_kerja_kondisi_kerja` int(11) NOT NULL DEFAULT 0,
-  `prod_kerja_kelangkaan_profesi` int(11) NOT NULL DEFAULT 0,
-  `prod_kerja_diterima` int(11) NOT NULL DEFAULT 0,
-  `tambahan_tpp` int(20) DEFAULT 0,
-  `pengurangan_tpp` int(11) DEFAULT 0,
-  `jumlah_tpp_diterima` int(11) DEFAULT 0,
+  `tpp_beban_kerja` int(15) DEFAULT 0,
+  `tpp_prestasi_kerja` int(15) DEFAULT 0,
+  `tpp_kondisi_kerja` int(15) DEFAULT 0,
+  `tpp_kelangkaan_profesi` int(15) DEFAULT 0,
+  `total_tpp` decimal(10,2) DEFAULT 0.00,
+  `nilai_disiplin_kerja` decimal(10,2) DEFAULT 0.00,
+  `nilai_produktivitas_kerja` decimal(10,2) DEFAULT 0.00,
+  `dis_kerja_beban_kerja` int(15) NOT NULL DEFAULT 0,
+  `dis_kerja_prestasi_kerja` int(15) NOT NULL DEFAULT 0,
+  `dis_kerja_kondisi_kerja` int(15) NOT NULL DEFAULT 0,
+  `dis_kerja_kelangkaan_profesi` int(15) NOT NULL DEFAULT 0,
+  `dis_kerja_diterima` int(15) NOT NULL DEFAULT 0,
+  `prod_kerja_beban_kerja` int(15) NOT NULL DEFAULT 0,
+  `prod_kerja_prestasi_kerja` int(15) NOT NULL DEFAULT 0,
+  `prod_kerja_kondisi_kerja` int(15) NOT NULL DEFAULT 0,
+  `prod_kerja_kelangkaan_profesi` int(15) NOT NULL DEFAULT 0,
+  `prod_kerja_diterima` int(15) NOT NULL DEFAULT 0,
+  `tambahan_tpp` decimal(10,2) DEFAULT 0.00,
+  `pengurangan_tpp` decimal(10,2) DEFAULT 0.00,
+  `jumlah_tpp_diterima` decimal(10,2) DEFAULT 0.00,
   `id_approval` int(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -283,7 +286,8 @@ CREATE TABLE `tb_tpp` (
 --
 
 INSERT INTO `tb_tpp` (`id_tpp`, `periode`, `id_pegawai`, `tpp_beban_kerja`, `tpp_prestasi_kerja`, `tpp_kondisi_kerja`, `tpp_kelangkaan_profesi`, `total_tpp`, `nilai_disiplin_kerja`, `nilai_produktivitas_kerja`, `dis_kerja_beban_kerja`, `dis_kerja_prestasi_kerja`, `dis_kerja_kondisi_kerja`, `dis_kerja_kelangkaan_profesi`, `dis_kerja_diterima`, `prod_kerja_beban_kerja`, `prod_kerja_prestasi_kerja`, `prod_kerja_kondisi_kerja`, `prod_kerja_kelangkaan_profesi`, `prod_kerja_diterima`, `tambahan_tpp`, `pengurangan_tpp`, `jumlah_tpp_diterima`, `id_approval`) VALUES
-(1, '2022-10', 2, 11340000, 14580000, 6480000, 0, 32400000, 100, 100, 4536000, 5832000, 2592000, 0, 12960000, 6804000, 8748000, 3888000, 0, 19440000, 0, 0, 64800000, NULL);
+(1, '2022-10', 2, 11340000, 14580000, 6480000, 0, '32400000.00', '100.00', '100.00', 4536000, 5832000, 2592000, 0, 12960000, 6804000, 8748000, 3888000, 0, 19440000, '0.00', '0.00', '32400000.00', NULL),
+(2, '2022-10', 25, 2065000, 2655000, 1180000, 0, '5900000.00', '76.00', '54.55', 627760, 807120, 358720, 0, 1793600, 675875, 868982, 386214, 0, 1931070, '0.00', '0.00', '3724670.00', NULL);
 
 -- --------------------------------------------------------
 
@@ -371,13 +375,13 @@ ALTER TABLE `tb_approval`
 -- AUTO_INCREMENT for table `tb_besaran_tpp`
 --
 ALTER TABLE `tb_besaran_tpp`
-  MODIFY `id_besaran_tpp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_besaran_tpp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tb_capaian_kerja`
 --
 ALTER TABLE `tb_capaian_kerja`
-  MODIFY `id_capaian_kinerja` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_capaian_kinerja` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `tb_jabatan`
@@ -401,13 +405,13 @@ ALTER TABLE `tb_periode`
 -- AUTO_INCREMENT for table `tb_rekapitulasi_presensi`
 --
 ALTER TABLE `tb_rekapitulasi_presensi`
-  MODIFY `id_rekapitulasi_presensi` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_rekapitulasi_presensi` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `tb_tpp`
 --
 ALTER TABLE `tb_tpp`
-  MODIFY `id_tpp` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_tpp` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `user_log`

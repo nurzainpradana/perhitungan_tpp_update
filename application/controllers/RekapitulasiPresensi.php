@@ -100,13 +100,95 @@ class RekapitulasiPresensi extends CI_Controller
         }
 
         $nilai_dl_pc    = 0;
-        $nilai          = 0;
-        for ($i = 450; $i < 9000; $i + 450) {
-            if ($dl_pc < $i) {
-                $nilai_dl_pc    = $nilai;
+
+        switch ($dl_pc) {
+            case $dl_pc <= 0:
+                $nilai_dl_pc    = 0;
                 break;
-            }
-            $nilai + 3;
+
+            case $dl_pc >= 0 && $dl_pc < 450:
+                $nilai_dl_pc    = 0;
+                break;
+
+            case $dl_pc >= 450 && $dl_pc < 900:
+                $nilai_dl_pc    = 3;
+                break;
+
+            case $dl_pc  >= 900 && $dl_pc < 1350:
+                $nilai_dl_pc    = 6;
+                break;
+
+            case $dl_pc >= 1350 && $dl_pc < 1800:
+                $nilai_dl_pc    = 9;
+                break;
+
+            case $dl_pc >= 1800 && $dl_pc < 2250:
+                $nilai_dl_pc    = 12;
+                break;
+
+            case $dl_pc >= 2250 && $dl_pc < 2700:
+                $nilai_dl_pc    = 15;
+                break;
+
+            case $dl_pc >= 2700 && $dl_pc < 3150:
+                $nilai_dl_pc    = 18;
+                break;
+
+            case $dl_pc >= 3150 && $dl_pc < 3600:
+                $nilai_dl_pc    = 21;
+                break;
+
+            case $dl_pc >= 3600 && $dl_pc < 4050:
+                $nilai_dl_pc    = 24;
+                break;
+
+            case $dl_pc >= 4050 && $dl_pc < 4500:
+                $nilai_dl_pc    = 27;
+                break;
+
+            case $dl_pc >= 4500 && $dl_pc < 4950:
+                $nilai_dl_pc    = 30;
+                break;
+
+            case $dl_pc >= 4950 && $dl_pc < 5400:
+                $nilai_dl_pc    = 33;
+                break;
+
+            case $dl_pc >= 5400 && $dl_pc < 5850:
+                $nilai_dl_pc    = 36;
+                break;
+
+            case $dl_pc >= 5850 && $dl_pc < 6300:
+                $nilai_dl_pc    = 39;
+                break;
+
+            case $dl_pc >= 6300 && $dl_pc < 6750:
+                $nilai_dl_pc    = 42;
+                break;
+
+            case $dl_pc >= 6750 && $dl_pc < 7200:
+                $nilai_dl_pc    = 45;
+                break;
+
+            case $dl_pc >= 7200 && $dl_pc < 7650:
+                $nilai_dl_pc    = 48;
+                break;
+
+            case $dl_pc >= 7650 && $dl_pc < 8100:
+                $nilai_dl_pc    = 51;
+                break;
+
+            case $dl_pc >= 8100 && $dl_pc < 8550:
+                $nilai_dl_pc    = 54;
+                break;
+
+            case $dl_pc >= 8550 && $dl_pc < 9000:
+                $nilai_dl_pc    = 57;
+                break;
+
+            default:
+                $nilai_dl_pc   = 57;
+                break;
         }
 
         $nilai_tidak_hadir_apel             = $tidak_hadir_apel * 0.2;
@@ -130,7 +212,9 @@ class RekapitulasiPresensi extends CI_Controller
 
             "total_pengurangan_tpp"         => $pengurangan_tpp,
             "total_penambahan_tpp"          => $penambahan_tpp,
-            "nilai_disiplin_kerja"          => $presentase_disiplin_kerja
+            "nilai_disiplin_kerja"          => $presentase_disiplin_kerja,
+
+            "total_pengurang_tpp_disiplin_kerja"    => $total_pengurangan_tpp_dis_kerja
         );
 
         $insert         = $this->M_crud->insert("tb_rekapitulasi_presensi", $data);
@@ -174,40 +258,153 @@ class RekapitulasiPresensi extends CI_Controller
 
     function Update()
     {
-        $pegawai                    = $this->input->post("pegawai");
+        $id_pegawai                 = $this->input->post("pegawai");
         $periode                    = $this->input->post("periode");
 
         $jumlah_hari_kerja          = $this->input->post("jumlah_hari_kerja");
-        $jumlah_tidak_hadir         = $this->input->post("tidak_hadir");
-        $jumlah_dl_pc               = $this->input->post("dl_pc");
-        $jumlah_tidak_hadir_rapat   = $this->input->post("tidak_hadir_rapat");
+        $tidak_hadir                = $this->input->post("tidak_hadir");
+        $dl_pc                      = $this->input->post("dl_pc");
+        $tidak_hadir_apel           = $this->input->post("tidak_hadir_apel");
+        $tidak_hadir_rapat          = $this->input->post("tidak_hadir_rapat");
         $pengurangan_tpp            = $this->input->post("pengurangan_tpp");
-        $presentase_disiplin_kerja  = $this->input->post("presentase_disiplin_kerja");
+        $penambahan_tpp             = $this->input->post("penambahan_tpp");
 
+        $nilai_tidak_hadir      = 0;
+        if ($tidak_hadir <= 22) {
+            $nilai_tidak_hadir      = $tidak_hadir * 3;
+        } else if ($tidak_hadir > 22) {
+            $nilai_tidak_hadir      = 100;
+        }
 
-        $data       = array(
-            "jumlah_hari_kerja"         => $jumlah_hari_kerja,
-            "jumlah_tidak_hadir"        => $jumlah_tidak_hadir,
-            "jumlah_dl_pc"              => $jumlah_dl_pc,
-            "jumlah_tidak_hadir_rapat"  => $jumlah_tidak_hadir_rapat,
-            "total_pengurangan_tpp"     => $pengurangan_tpp,
-            "nilai_disiplin_kerja"      => $presentase_disiplin_kerja
+        $nilai_dl_pc    = 0;
+
+        switch ($dl_pc) {
+            case $dl_pc <= 0:
+                $nilai_dl_pc    = 0;
+                break;
+
+            case $dl_pc >= 0 && $dl_pc < 450:
+                $nilai_dl_pc    = 0;
+                break;
+
+            case $dl_pc >= 450 && $dl_pc < 900:
+                $nilai_dl_pc    = 3;
+                break;
+
+            case $dl_pc  >= 900 && $dl_pc < 1350:
+                $nilai_dl_pc    = 6;
+                break;
+
+            case $dl_pc >= 1350 && $dl_pc < 1800:
+                $nilai_dl_pc    = 9;
+                break;
+
+            case $dl_pc >= 1800 && $dl_pc < 2250:
+                $nilai_dl_pc    = 12;
+                break;
+
+            case $dl_pc >= 2250 && $dl_pc < 2700:
+                $nilai_dl_pc    = 15;
+                break;
+
+            case $dl_pc >= 2700 && $dl_pc < 3150:
+                $nilai_dl_pc    = 18;
+                break;
+
+            case $dl_pc >= 3150 && $dl_pc < 3600:
+                $nilai_dl_pc    = 21;
+                break;
+
+            case $dl_pc >= 3600 && $dl_pc < 4050:
+                $nilai_dl_pc    = 24;
+                break;
+
+            case $dl_pc >= 4050 && $dl_pc < 4500:
+                $nilai_dl_pc    = 27;
+                break;
+
+            case $dl_pc >= 4500 && $dl_pc < 4950:
+                $nilai_dl_pc    = 30;
+                break;
+
+            case $dl_pc >= 4950 && $dl_pc < 5400:
+                $nilai_dl_pc    = 33;
+                break;
+
+            case $dl_pc >= 5400 && $dl_pc < 5850:
+                $nilai_dl_pc    = 36;
+                break;
+
+            case $dl_pc >= 5850 && $dl_pc < 6300:
+                $nilai_dl_pc    = 39;
+                break;
+
+            case $dl_pc >= 6300 && $dl_pc < 6750:
+                $nilai_dl_pc    = 42;
+                break;
+
+            case $dl_pc >= 6750 && $dl_pc < 7200:
+                $nilai_dl_pc    = 45;
+                break;
+
+            case $dl_pc >= 7200 && $dl_pc < 7650:
+                $nilai_dl_pc    = 48;
+                break;
+
+            case $dl_pc >= 7650 && $dl_pc < 8100:
+                $nilai_dl_pc    = 51;
+                break;
+
+            case $dl_pc >= 8100 && $dl_pc < 8550:
+                $nilai_dl_pc    = 54;
+                break;
+
+            case $dl_pc >= 8550 && $dl_pc < 9000:
+                $nilai_dl_pc    = 57;
+                break;
+
+            default:
+                $nilai_dl_pc   = 57;
+                break;
+        }
+
+        $nilai_tidak_hadir_apel             = $tidak_hadir_apel * 0.2;
+        $nilai_tidak_hadir_rapat            = $tidak_hadir_rapat;
+        $total_pengurangan_tpp_dis_kerja    = $nilai_tidak_hadir + $nilai_dl_pc + $nilai_tidak_hadir_apel + $nilai_tidak_hadir_rapat;
+        $presentase_disiplin_kerja          = (100 - $total_pengurangan_tpp_dis_kerja);
+
+        $data           = array(
+            "jumlah_hari_kerja"             => $jumlah_hari_kerja,
+            "jumlah_tidak_hadir"            => $tidak_hadir,
+            "jumlah_dl_pc"                  => $dl_pc,
+            "jumlah_tidak_hadir_rapat"      => $tidak_hadir_rapat,
+            "jumlah_tidak_hadir_apel"       => $tidak_hadir_apel,
+
+            "nilai_tidak_hadir"             => $nilai_tidak_hadir,
+            "nilai_dl_pc"                   => $nilai_dl_pc,
+            "nilai_tidak_hadir_rapat"       => $nilai_tidak_hadir_rapat,
+            "nilai_tidak_hadir_apel"        => $nilai_tidak_hadir_apel,
+
+            "total_pengurangan_tpp"         => $pengurangan_tpp,
+            "total_penambahan_tpp"          => $penambahan_tpp,
+            "nilai_disiplin_kerja"          => $presentase_disiplin_kerja,
+
+            "total_pengurang_tpp_disiplin_kerja"    => $total_pengurangan_tpp_dis_kerja
         );
 
         $where      = array(
-            "id_pegawai"        => $pegawai,
-            "periode"           => $periode,
-            "id_approval"       => null
+            "id_pegawai"                    => $id_pegawai,
+            "periode"                       => $periode
         );
 
-        $update             = $this->M_crud->update("tb_rekapitulasi_presensi", $data, $where);
+        $update         = $this->M_crud->update("tb_rekapitulasi_presensi", $data, $where);
 
         if ($update) {
             $response_status        = "success";
-            $response_message       = "Berhasil mengedit Rekapitulasi Presensi Pegawai";
+            $response_message       = "Berhasil Mengupdate data Rekapitulasi Presensi pegawai";
         } else {
             $response_status        = "failed";
-            $response_message       = "Gagal mengedit Rekapitulasi Presensi Pegawai";
+            $response_message       = "Gagal Mengupdate data Rekapitulasi Presensi pegawai";
         }
 
         echo json_encode(array(
