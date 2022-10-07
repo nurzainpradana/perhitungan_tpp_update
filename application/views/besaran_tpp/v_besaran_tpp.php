@@ -76,16 +76,8 @@
                                                     <span class='form-control-feedback text-danger'></span>
                                                 </div>
                                             </div>
-                                            
-                                            <div class="col-4">
-                                                <div class="form-group">
-                                                    <label for="exampleSelectBorder">Tambahan TPP <span class="text-danger">*</span></label>
-                                                    <input name="tambahan_tpp" type="number" class="form-control form-control-border border-width-2" id="inputTambahanTpp" autocomplete="off" min="0" required placeholder="Masukkan Tambahan TPP">
-                                                    <span class='form-control-feedback text-danger'></span>
-                                                </div>
-                                            </div>
                                         </div>
-                                        
+
                                         <div class="row">
                                             <div class="col-12">
                                                 <button type="button" id="btnSave" class="btn btn-primary">Simpan</button>
@@ -107,7 +99,6 @@
                         <th>Prestasi Kerja</th>
                         <th>Kondisi Kerja</th>
                         <th>Kelangkaan Profesi</th>
-                        <th>Tambahan TPP</th>
                         <th>Total TPP</th>
                         <th>#</th>
                     </tr>

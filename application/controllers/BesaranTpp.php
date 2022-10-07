@@ -40,14 +40,13 @@ class BesaranTpp extends CI_Controller
             $no++;
             $row        = array();
 
-            $row[]      = $item->nama_jabatan ;
+            $row[]      = $item->nama_jabatan;
             $row[]      = $item->beban_kerja > 0 ? "Rp " . number_format($item->beban_kerja, 2, ',', '.') : '-';
             $row[]      = $item->prestasi_kerja > 0 ? "Rp " . number_format($item->prestasi_kerja, 2, ',', '.') : '-';
             $row[]      = $item->kondisi_kerja > 0 ? "Rp " . number_format($item->kondisi_kerja, 2, ',', '.') : '-';
             $row[]      = $item->kelangkaan_profesi > 0 ? "Rp " . number_format($item->kelangkaan_profesi, 2, ',', '.') : '-';
-            $row[]      = $item->tambahan_tpp > 0 ? "Rp " . number_format($item->tambahan_tpp, 2, ',', '.') : '-';
 
-            $total_tpp  = $item->beban_kerja + $item->prestasi_kerja + $item->kondisi_kerja + $item->kelangkaan_profesi + $item->tambahan_tpp;
+            $total_tpp  = $item->beban_kerja + $item->prestasi_kerja + $item->kondisi_kerja + $item->kelangkaan_profesi;
 
             $row[]      = $total_tpp > 0 ? "Rp " . number_format($total_tpp, 2, ',', '.') : '';
             $row[]      = "
@@ -87,20 +86,18 @@ class BesaranTpp extends CI_Controller
     function add()
     {
         $id_jabatan         = $this->input->post("jabatan");
-        
+
         $beban_kerja        = $this->input->post("beban_kerja");
         $prestasi_kerja     = $this->input->post("prestasi_kerja");
         $kondisi_kerja      = $this->input->post("kondisi_kerja");
         $kelangkaan_profesi = $this->input->post("kelangkaan_profesi");
-        $tambahan_tpp       = $this->input->post("tambahan_tpp");
 
         $data           = array(
             "id_jabatan"            => $id_jabatan,
             "beban_kerja"           => $beban_kerja,
             "prestasi_kerja"        => $prestasi_kerja,
             "kondisi_kerja"         => $kondisi_kerja,
-            "kelangkaan_profesi"    => $kelangkaan_profesi,
-            "tambahan_tpp"          => $tambahan_tpp
+            "kelangkaan_profesi"    => $kelangkaan_profesi
         );
 
         $insert         = $this->M_crud->insert("tb_besaran_tpp", $data);
@@ -145,19 +142,17 @@ class BesaranTpp extends CI_Controller
     function Update()
     {
         $id_jabatan         = $this->input->post("jabatan");
-        
+
         $beban_kerja        = $this->input->post("beban_kerja");
         $prestasi_kerja     = $this->input->post("prestasi_kerja");
         $kondisi_kerja      = $this->input->post("kondisi_kerja");
         $kelangkaan_profesi = $this->input->post("kelangkaan_profesi");
-        $tambahan_tpp       = $this->input->post("tambahan_tpp");
 
         $data           = array(
             "beban_kerja"           => $beban_kerja,
             "prestasi_kerja"        => $prestasi_kerja,
             "kondisi_kerja"         => $kondisi_kerja,
-            "kelangkaan_profesi"    => $kelangkaan_profesi,
-            "tambahan_tpp"          => $tambahan_tpp
+            "kelangkaan_profesi"    => $kelangkaan_profesi
         );
 
         $where          = array(

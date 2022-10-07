@@ -255,6 +255,32 @@ class TPP extends CI_Controller
         $row        = 7;
         $no         = 1;
 
+        $sum_tpp_beban_kerja            = 0;
+        $sum_tpp_prestasi_kerja         = 0;
+        $sum_tpp_kondisi_kerja          = 0;
+        $sum_tpp_kelangkaan_profesi     = 0;
+        $sum_total_tpp                  = 0;
+
+
+        $sum_dis_kerja_beban_kerja          = 0;
+        $sum_dis_kerja_prestasi_kerja       = 0;
+        $sum_dis_kerja_kondisi_kerja        = 0;
+        $sum_dis_kerja_kelangkaan_profesi   = 0;
+        $sum_dis_kerja_diterima             = 0;
+
+
+        $sum_prod_kerja_beban_kerja            = 0;
+        $sum_prod_kerja_prestasi_kerja         = 0;
+        $sum_prod_kerja_kondisi_kerja          = 0;
+        $sum_prod_kerja_kelangkaan_profesi     = 0;
+        $sum_prod_kerja_diterima               = 0;
+
+        $sum_penambahan_tpp                     = 0;
+        $sum_pengurangan_tpp                    = 0;
+
+        $sum_jumlah_tpp_diterima                = 0;
+
+
 
         foreach ($result as $item) {
 
@@ -282,15 +308,63 @@ class TPP extends CI_Controller
             $sheet->setCellValue("V$row", $item->pengurangan_tpp);
             $sheet->setCellValue("W$row", $item->jumlah_tpp_diterima);
 
-            print_r($item);
+            $sum_tpp_beban_kerja                += $item->tpp_beban_kerja;
+            $sum_tpp_prestasi_kerja             += $item->tpp_prestasi_kerja;
+            $sum_tpp_kondisi_kerja              += $item->tpp_kondisi_kerja;
+            $sum_tpp_kelangkaan_profesi         += $item->tpp_kelangkaan_profesi;
+            $sum_total_tpp                      += $item->total_tpp;
+
+            $sum_dis_kerja_beban_kerja          += $item->dis_kerja_beban_kerja;
+            $sum_dis_kerja_prestasi_kerja       += $item->dis_kerja_prestasi_kerja;
+            $sum_dis_kerja_kondisi_kerja        += $item->dis_kerja_kondisi_kerja;
+            $sum_dis_kerja_kelangkaan_profesi   += $item->dis_kerja_kelangkaan_profesi;
+            $sum_dis_kerja_diterima             += $item->dis_kerja_diterima;
+
+            $sum_prod_kerja_beban_kerja          += $item->prod_kerja_beban_kerja;
+            $sum_prod_kerja_prestasi_kerja       += $item->prod_kerja_prestasi_kerja;
+            $sum_prod_kerja_kondisi_kerja        += $item->prod_kerja_kondisi_kerja;
+            $sum_prod_kerja_kelangkaan_profesi   += $item->prod_kerja_kelangkaan_profesi;
+            $sum_prod_kerja_diterima             += $item->prod_kerja_diterima;
+
+
+            $sum_penambahan_tpp                  += $item->penambahan_tpp;
+            $sum_pengurangan_tpp                 += $item->pengurangan_tpp;
+
+            $sum_jumlah_tpp_diterima             += $item->jumlah_tpp_diterima;
 
             $no++;
             $row++;
         }
 
+        $sheet->setCellValue("A$row", "JUMLAH");
+        $sheet->mergeCells("A$row:C$row");
+
+        $sheet->setCellValue("D$row", $sum_tpp_beban_kerja);
+        $sheet->setCellValue("E$row", $sum_tpp_prestasi_kerja);
+        $sheet->setCellValue("F$row", $sum_tpp_kondisi_kerja);
+        $sheet->setCellValue("G$row", $sum_tpp_kelangkaan_profesi);
+        $sheet->setCellValue("H$row", $sum_total_tpp);
+
+        $sheet->setCellValue("J$row", $sum_dis_kerja_beban_kerja);
+        $sheet->setCellValue("K$row", $sum_dis_kerja_prestasi_kerja);
+        $sheet->setCellValue("L$row", $sum_dis_kerja_kondisi_kerja);
+        $sheet->setCellValue("M$row", $sum_dis_kerja_kelangkaan_profesi);
+        $sheet->setCellValue("N$row", $sum_dis_kerja_diterima);
+
+        $sheet->setCellValue("P$row", $sum_prod_kerja_beban_kerja);
+        $sheet->setCellValue("Q$row", $sum_prod_kerja_prestasi_kerja);
+        $sheet->setCellValue("R$row", $sum_prod_kerja_kondisi_kerja);
+        $sheet->setCellValue("S$row", $sum_prod_kerja_kelangkaan_profesi);
+        $sheet->setCellValue("T$row", $sum_prod_kerja_diterima);
+
+        $sheet->setCellValue("U$row", $sum_penambahan_tpp);
+        $sheet->setCellValue("V$row", $sum_pengurangan_tpp);
+        $sheet->setCellValue("W$row", $sum_jumlah_tpp_diterima);
+
+
         $sheet->getStyle("D7:W$row")->getNumberFormat()->setFormatCode('#,##0.00');
 
-        $row--;
+        // $row--;
 
 
 
@@ -333,6 +407,16 @@ class TPP extends CI_Controller
 
         $sheet->getStyle("D7:W$row")->getAlignment()->setHorizontal('right');
         $sheet->getStyle("D7:W$row")->getAlignment()->setVertical('center');
+
+        $styleArray = [
+            'font'  => array(
+                'size'  => 11,
+                'bold'  => true,
+                'name'  => 'Bookman Old Style'
+            )
+        ];
+
+        $sheet->getStyle("A$row")->applyFromArray($styleArray);
 
 
 

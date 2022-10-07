@@ -19,12 +19,9 @@ $(document).ready(function () {
 
 		// Load data for the table's content from an Ajax source
 		ajax: {
-			url:
-				baseUrl +
-				"/BesaranTpp/loadBesaranTppListDatatables",
+			url: baseUrl + "/BesaranTpp/loadBesaranTppListDatatables",
 			type: "POST",
-			data: function (data) {
-			},
+			data: function (data) {},
 		},
 
 		//Set column definition initialisation properties.
@@ -37,20 +34,14 @@ $(document).ready(function () {
 	});
 
 	$("#btnSave").click(function (e) {
-		checkEmptyInput("#inputJabatan");
-		checkEmptyInput("#inputBebanKerja");
-		checkEmptyInput("#inputPrestasiKerja");
-		checkEmptyInput("#inputKondisiKerja");
-		checkEmptyInput("#inputKelangkaanProfesi");
-		checkEmptyInput("#inputTambahanTpp");
-
 		if (
-			checkEmptyInput("#inputJabatan") &&
-			checkEmptyInput("#inputBebanKerja") &&
-			checkEmptyInput("#inputPrestasiKerja") &&
-			checkEmptyInput("#inputKondisiKerja") &&
-			checkEmptyInput("#inputKelangkaanProfesi") &&
-			checkEmptyInput("#inputTambahanTpp")
+			checkEmptyInputWithMessageArray([
+				"#inputKelangkaanProfesi",
+				"#inputKondisiKerja",
+				"#inputPrestasiKerja",
+				"#inputBebanKerja",
+				"#inputJabatan",
+			])
 		) {
 			$.ajax({
 				url: baseUrl + "/BesaranTpp/Add",
@@ -86,21 +77,14 @@ $(document).ready(function () {
 	});
 
 	$("#btnUpdate").click(function (e) {
-		checkEmptyInput("#inputJabatan");
-		checkEmptyInput("#inputBebanKerja");
-		checkEmptyInput("#inputPrestasiKerja");
-		checkEmptyInput("#inputKondisiKerja");
-		checkEmptyInput("#inputKelangkaanProfesi");
-		checkEmptyInput("#inputTambahanTpp");
-
 		if (
-			
-		checkEmptyInput("#inputJabatan") &&
-		checkEmptyInput("#inputBebanKerja") &&
-		checkEmptyInput("#inputPrestasiKerja") &&
-		checkEmptyInput("#inputKondisiKerja") &&
-		checkEmptyInput("#inputKelangkaanProfesi") &&
-		checkEmptyInput("#inputTambahanTpp")
+			checkEmptyInputWithMessageArray([
+				"#inputKelangkaanProfesi",
+				"#inputKondisiKerja",
+				"#inputPrestasiKerja",
+				"#inputBebanKerja",
+				"#inputJabatan",
+			])
 		) {
 			$.ajax({
 				url: baseUrl + "/BesaranTpp/Update",
@@ -145,11 +129,9 @@ $(document).ready(function () {
 
 		reload_table();
 	});
-
 });
 
-function loadJabatanOptionList()
-{
+function loadJabatanOptionList() {
 	$.ajax({
 		url: baseUrl + "/Pegawai/loadJabatanListOption",
 		type: "POST",
@@ -160,7 +142,6 @@ function loadJabatanOptionList()
 		},
 	});
 }
-
 
 function reload_table() {
 	table.ajax.reload(null, false); //reload datatable ajax
@@ -182,12 +163,11 @@ function editNilai(id) {
 
 				$("#inputJabatan").val(data.id_jabatan);
 				$("#inputJabatan").attr("readonly", "readonly");
-				
+
 				$("#inputBebanKerja").val(data.beban_kerja);
 				$("#inputPrestasiKerja").val(data.prestasi_kerja);
 				$("#inputKondisiKerja").val(data.kondisi_kerja);
 				$("#inputKelangkaanProfesi").val(data.kelangkaan_profesi);
-				$("#inputTambahanTpp").val(data.tambahan_tpp);
 
 				$("#inputBebanKerja").focus();
 
