@@ -116,7 +116,7 @@ class TPP extends CI_Controller
 
         $sheet->getStyle("F5")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
         $sheet->getStyle("F5")->getFill()->getStartColor()->setARGB('92D050');
-        
+
         $sheet->getStyle("G5")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
         $sheet->getStyle("G5")->getFill()->getStartColor()->setARGB('D9D9D9');
 
@@ -147,7 +147,7 @@ class TPP extends CI_Controller
 
         $sheet->getStyle("L5")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
         $sheet->getStyle("L5")->getFill()->getStartColor()->setARGB('92D050');
-        
+
         $sheet->getStyle("M5")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
         $sheet->getStyle("M5")->getFill()->getStartColor()->setARGB('D9D9D9');
 
@@ -424,7 +424,7 @@ class TPP extends CI_Controller
 
         $sheet->getStyle("A$row")->applyFromArray($styleArray);
 
-        
+
         $sheet->getStyle("J$row")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
         $sheet->getStyle("J$row")->getFill()->getStartColor()->setARGB('FFC000');
 
@@ -433,10 +433,10 @@ class TPP extends CI_Controller
 
         $sheet->getStyle("L$row")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
         $sheet->getStyle("L$row")->getFill()->getStartColor()->setARGB('92D050');
-        
+
         $sheet->getStyle("M$row")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
         $sheet->getStyle("M$row")->getFill()->getStartColor()->setARGB('D9D9D9');
-        
+
         $sheet->getStyle("N$row")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
         $sheet->getStyle("N$row")->getFill()->getStartColor()->setARGB('FFFF00');
 
@@ -449,14 +449,14 @@ class TPP extends CI_Controller
 
         $sheet->getStyle("R$row")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
         $sheet->getStyle("R$row")->getFill()->getStartColor()->setARGB('92D050');
-        
+
         $sheet->getStyle("S$row")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
         $sheet->getStyle("S$row")->getFill()->getStartColor()->setARGB('D9D9D9');
-        
+
         $sheet->getStyle("T$row")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
         $sheet->getStyle("T$row")->getFill()->getStartColor()->setARGB('FFFF00');
 
-        
+
         $sheet->getStyle("U$row")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
         $sheet->getStyle("U$row")->getFill()->getStartColor()->setARGB('FFC000');
 
@@ -468,7 +468,7 @@ class TPP extends CI_Controller
 
         //
 
-        
+
 
         $row    = $row + 2;
         $sheet->setCellValue("A$row", "RANGKUMAN");
@@ -479,7 +479,7 @@ class TPP extends CI_Controller
         $row++;
         $sheet->setCellValue("A$row", "TOTAL BEBAN KERJA");
         $sheet->mergeCells("A$row:H$row");
-        
+
         $sheet->setCellValue("J$row", $sum_dis_kerja_beban_kerja > 0 ? $sum_dis_kerja_beban_kerja : '-');
         $sheet->setCellValue("P$row", $sum_prod_kerja_beban_kerja > 0 ? $sum_prod_kerja_beban_kerja : '-');
         $sheet->setCellValue("U$row", $sum_penambahan_tpp > 0 ? $sum_penambahan_tpp : '-');
@@ -491,24 +491,24 @@ class TPP extends CI_Controller
         $row++;
         $sheet->setCellValue("A$row", "TOTAL PRESTASI KERJA");
         $sheet->mergeCells("A$row:H$row");
-        
+
         $sheet->setCellValue("K$row", $sum_dis_kerja_prestasi_kerja > 0 ? $sum_dis_kerja_prestasi_kerja : '-');
         $sheet->setCellValue("Q$row", $sum_prod_kerja_prestasi_kerja > 0 ? $sum_prod_kerja_prestasi_kerja : '-');
         $sheet->setCellValue("V$row", $sum_pengurangan_tpp > 0 ? $sum_pengurangan_tpp : '-');
-        
-        $sum_row_prestasi_kerja        = $sum_dis_kerja_prestasi_kerja + $sum_prod_kerja_prestasi_kerja - $sum_pengurangan_tpp;
+
+        $sum_row_prestasi_kerja        = ($sum_dis_kerja_prestasi_kerja + $sum_prod_kerja_prestasi_kerja) - $sum_pengurangan_tpp;
         $sheet->setCellValue("W$row", $sum_row_prestasi_kerja > 0 ? $sum_row_prestasi_kerja : '-');
 
-        
+
         $row++;
         $sheet->setCellValue("A$row", "TOTAL KONDISI KERJA");
         $sheet->mergeCells("A$row:H$row");
 
-        
+
         $sheet->setCellValue("L$row", $sum_dis_kerja_kondisi_kerja > 0 ? $sum_dis_kerja_kondisi_kerja : '-');
         $sheet->setCellValue("R$row", $sum_prod_kerja_kondisi_kerja > 0 ? $sum_prod_kerja_kondisi_kerja : '-');
 
-        
+
         $sum_row_kondisi_kerja        = $sum_dis_kerja_kondisi_kerja + $sum_prod_kerja_kondisi_kerja;
         $sheet->setCellValue("W$row", $sum_row_kondisi_kerja > 0 ? $sum_row_kondisi_kerja : '-');
 
@@ -517,11 +517,11 @@ class TPP extends CI_Controller
         $sheet->setCellValue("A$row", "TOTAL KELANGKAAN PROFESI");
         $sheet->mergeCells("A$row:H$row");
 
-        
+
         $sheet->setCellValue("M$row", $sum_dis_kerja_kelangkaan_profesi > 0 ? $sum_dis_kerja_kelangkaan_profesi : '-');
         $sheet->setCellValue("S$row", $sum_prod_kerja_kelangkaan_profesi > 0 ? $sum_prod_kerja_kelangkaan_profesi : '-');
 
-        
+
         $sum_row_kelangkaan_profesi        = $sum_dis_kerja_kelangkaan_profesi + $sum_prod_kerja_kelangkaan_profesi;
         $sheet->setCellValue("W$row", $sum_row_kelangkaan_profesi > 0 ? $sum_row_kelangkaan_profesi : '-');
 
@@ -530,10 +530,10 @@ class TPP extends CI_Controller
         $row++;
         $sheet->setCellValue("A$row", "TOTAL PENCAIRAN TPP");
         $sheet->mergeCells("A$row:H$row");
-        
+
         $sheet->setCellValue("W$row", $sum_row_all > 0 ? $sum_row_all : '-');
 
-        
+
         $styleArray = [
             'borders' => [
                 'allBorders' => [
@@ -551,37 +551,85 @@ class TPP extends CI_Controller
         $sheet->getStyle("A$rows:H$row")->applyFromArray($styleArray);
 
         $rows++;
-        
+
         $sheet->getStyle("A$rows:H$row")->getAlignment()->setHorizontal('center');
         $sheet->getStyle("A$rows:H$row")->getAlignment()->setVertical('center');
 
-        
+
         $sheet->getStyle("A$rows")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
         $sheet->getStyle("A$rows")->getFill()->getStartColor()->setARGB('FFC000');
+
+
+        $sheet->getStyle("J$rows")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
+        $sheet->getStyle("J$rows")->getFill()->getStartColor()->setARGB('FFC000');
+
+        $sheet->getStyle("P$rows")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
+        $sheet->getStyle("P$rows")->getFill()->getStartColor()->setARGB('FFC000');
+
+        $sheet->getStyle("U$rows")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
+        $sheet->getStyle("U$rows")->getFill()->getStartColor()->setARGB('FFC000');
+
+        $sheet->getStyle("W$rows")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
+        $sheet->getStyle("W$rows")->getFill()->getStartColor()->setARGB('FFC000');
 
         $rows++;
 
         $sheet->getStyle("A$rows")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
         $sheet->getStyle("A$rows")->getFill()->getStartColor()->setARGB('00B0F0');
 
-        
+        $sheet->getStyle("K$rows")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
+        $sheet->getStyle("K$rows")->getFill()->getStartColor()->setARGB('00B0F0');
+
+        $sheet->getStyle("Q$rows")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
+        $sheet->getStyle("Q$rows")->getFill()->getStartColor()->setARGB('00B0F0');
+
+        $sheet->getStyle("V$rows")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
+        $sheet->getStyle("V$rows")->getFill()->getStartColor()->setARGB('00B0F0');
+
+        $sheet->getStyle("W$rows")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
+        $sheet->getStyle("W$rows")->getFill()->getStartColor()->setARGB('00B0F0');
+
+
         $rows++;
 
         $sheet->getStyle("A$rows")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
         $sheet->getStyle("A$rows")->getFill()->getStartColor()->setARGB('92D050');
 
-        
+        $sheet->getStyle("L$rows")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
+        $sheet->getStyle("L$rows")->getFill()->getStartColor()->setARGB('92D050');
+
+        $sheet->getStyle("R$rows")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
+        $sheet->getStyle("R$rows")->getFill()->getStartColor()->setARGB('92D050');
+
+        $sheet->getStyle("W$rows")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
+        $sheet->getStyle("W$rows")->getFill()->getStartColor()->setARGB('92D050');
+
+
         $rows++;
-        
+
         $sheet->getStyle("A$rows")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
         $sheet->getStyle("A$rows")->getFill()->getStartColor()->setARGB('D9D9D9');
 
+
+        $sheet->getStyle("M$rows")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
+        $sheet->getStyle("M$rows")->getFill()->getStartColor()->setARGB('D9D9D9');
+
+        $sheet->getStyle("S$rows")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
+        $sheet->getStyle("S$rows")->getFill()->getStartColor()->setARGB('D9D9D9');
+
+
+        $sheet->getStyle("W$rows")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
+        $sheet->getStyle("W$rows")->getFill()->getStartColor()->setARGB('D9D9D9');
+
         $rows++;
-        
+
         $sheet->getStyle("A$rows")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
         $sheet->getStyle("A$rows")->getFill()->getStartColor()->setARGB('FFFF00');
 
-        
+        $sheet->getStyle("W$rows")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
+        $sheet->getStyle("W$rows")->getFill()->getStartColor()->setARGB('FFFF00');
+
+
         $rows       = $row - 5;
 
         $sheet->getStyle("D$rows:W$row")->getNumberFormat()->setFormatCode('#,##0.00');
@@ -602,11 +650,58 @@ class TPP extends CI_Controller
 
         $sheet->getStyle("D$rows:W$row")->applyFromArray($styleArray);
 
-        
+
         $sheet->getStyle("D$rows:W$row")->getAlignment()->setHorizontal('right');
         $sheet->getStyle("D$rows:W$row")->getAlignment()->setVertical('center');
 
+        $row = $row + 2;
+
+        $approval       = $this->M_tpp->loadApprovalList();
+
+        $approve_1_jabatan          = "";
+        $approve_1_nama_pegawai     = "";
+        $approve_1_pangkat_golongan = "";
+        $approve_1_nip              = "";
+
+
+        $approve_2_jabatan          = "";
+        $approve_2_nama_pegawai     = "";
+        $approve_2_pangkat_golongan = "";
+        $approve_2_nip              = "";
+
+        $approve_3_jabatan          = "";
+        $approve_3_nama_pegawai     = "";
+        $approve_3_pangkat_golongan = "";
+        $approve_3_nip              = "";
+
+        $i      = 1;
+        foreach ($approval as $pegawai) {
+            ${"approve_{$i}_jabatan"}           = $pegawai->jabatan;
+            ${"approve_{$i}_nama_pegawai"}      = $pegawai->nama_pegawai;
+            ${"approve_{$i}_pangkat_golongan"}  = $pegawai->pangkat_golongan;
+            ${"approve_{$i}_nip"}               = $pegawai->nip;
+
+            $i++;
+        }
+
+
+        // APPROVAL CELL
+
+        $sheet->setCellValue("B$row", $approve_1_jabatan);
+        $sheet->mergeCells("B$row:C$row");
+
+
+        $sheet->setCellValue("I$row", $approve_2_jabatan);
+        $sheet->mergeCells("I$row:N$row");
+
         
+
+        $sheet->setCellValue("I$row", $approve_2_jabatan);
+        $sheet->mergeCells("I$row:N$row");
+
+
+
+
 
 
 
@@ -655,19 +750,19 @@ class TPP extends CI_Controller
 
                 // HITUNG DISIPLIN KERJA
 
-                $dis_kerja_beban_kerja          = $presentase_tpp_disiplin_kerja * ($nilai_disiplin_kerja / 100) * $tpp_beban_kerja;
-                $dis_kerja_prestasi_kerja       = $presentase_tpp_disiplin_kerja * ($nilai_disiplin_kerja / 100) * $tpp_prestasi_kerja;
-                $dis_kerja_kondisi_kerja        = $presentase_tpp_disiplin_kerja * ($nilai_disiplin_kerja / 100) * $tpp_kondisi_kerja;
-                $dis_kerja_kelangkaan_profesi   = $presentase_tpp_disiplin_kerja * ($nilai_disiplin_kerja / 100) * $tpp_kelangkaan_profesi;
+                $dis_kerja_beban_kerja          = round($presentase_tpp_disiplin_kerja * ($nilai_disiplin_kerja / 100) * $tpp_beban_kerja);
+                $dis_kerja_prestasi_kerja       = round($presentase_tpp_disiplin_kerja * ($nilai_disiplin_kerja / 100) * $tpp_prestasi_kerja);
+                $dis_kerja_kondisi_kerja        = round($presentase_tpp_disiplin_kerja * ($nilai_disiplin_kerja / 100) * $tpp_kondisi_kerja);
+                $dis_kerja_kelangkaan_profesi   = round($presentase_tpp_disiplin_kerja * ($nilai_disiplin_kerja / 100) * $tpp_kelangkaan_profesi);
 
                 $dis_kerja_diterima                = $dis_kerja_beban_kerja + $dis_kerja_prestasi_kerja + $dis_kerja_kondisi_kerja + $dis_kerja_kelangkaan_profesi;
 
                 // HITUNG PRODUKTIVITAS KERJA
 
-                $prod_kerja_beban_kerja          = $presentase_tpp_produktivitas_kerja * ($nilai_produktivitas_kerja / 100) * $tpp_beban_kerja;
-                $prod_kerja_prestasi_kerja       = $presentase_tpp_produktivitas_kerja * ($nilai_produktivitas_kerja / 100) * $tpp_prestasi_kerja;
-                $prod_kerja_kondisi_kerja        = $presentase_tpp_produktivitas_kerja * ($nilai_produktivitas_kerja / 100) * $tpp_kondisi_kerja;
-                $prod_kerja_kelangkaan_profesi   = $presentase_tpp_produktivitas_kerja * ($nilai_produktivitas_kerja / 100) * $tpp_kelangkaan_profesi;
+                $prod_kerja_beban_kerja          = round($presentase_tpp_produktivitas_kerja * ($nilai_produktivitas_kerja / 100) * $tpp_beban_kerja);
+                $prod_kerja_prestasi_kerja       = round($presentase_tpp_produktivitas_kerja * ($nilai_produktivitas_kerja / 100) * $tpp_prestasi_kerja);
+                $prod_kerja_kondisi_kerja        = round($presentase_tpp_produktivitas_kerja * ($nilai_produktivitas_kerja / 100) * $tpp_kondisi_kerja);
+                $prod_kerja_kelangkaan_profesi   = round($presentase_tpp_produktivitas_kerja * ($nilai_produktivitas_kerja / 100) * $tpp_kelangkaan_profesi);
 
                 $prod_kerja_diterima             = $prod_kerja_beban_kerja + $prod_kerja_prestasi_kerja + $prod_kerja_kondisi_kerja + $prod_kerja_kelangkaan_profesi;
 

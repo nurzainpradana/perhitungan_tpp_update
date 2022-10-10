@@ -134,4 +134,14 @@ class M_tpp extends CI_Model
 
         return $this->db->get()->row();
     }
+
+    function loadApprovalList()
+    {
+        $this->db->select("*");
+        $this->db->from("tb_approval");
+        $this->db->limit(3);
+        $this->db->order_by("level", "desc");
+
+        return $this->db->get()->result();
+    }
 }
