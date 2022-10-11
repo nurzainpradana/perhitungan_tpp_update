@@ -437,4 +437,21 @@ class RekapitulasiPresensi extends CI_Controller
             "message"       => $response_message
         ));
     }
+
+
+    /**
+     * REPORT
+     * ===============================
+     */
+
+    function laporan()
+    {
+        $datas['page_title']            = "Laporan Rekapitulasi Presensi";
+
+        $this->load->view('layout/v_header', $datas);
+        $this->load->view('layout/v_top_menu');
+        $this->load->view('layout/v_sidebar');
+        $this->load->view('rekapitulasi_presensi/v_laporan_rekapitulasi_presensi');
+        $this->load->view('layout/v_footer');
+    }
 }
