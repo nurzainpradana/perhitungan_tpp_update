@@ -61,6 +61,7 @@ class TPP extends CI_Controller
 
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
+        $sheet->setTitle("TPP");
         $sheet->setCellValue('A1', 'PERHITUNGAN TAMBAHAN PENGHASILAN KECAMATAN SETU KABUPATEN BEKASI');
         $sheet->mergeCells('A1:W1');
         $sheet->setCellValue('A2', "BULAN $periode");
@@ -679,7 +680,7 @@ class TPP extends CI_Controller
             ${"approve_{$i}_jabatan"}           = $pegawai->jabatan;
             ${"approve_{$i}_nama_pegawai"}      = $pegawai->nama_pegawai;
             ${"approve_{$i}_pangkat_golongan"}  = $pegawai->pangkat_golongan;
-            ${"approve_{$i}_nip"}               = $pegawai->nip;
+            ${"approve_{$i}_nip"}               = $pegawai->nip_pegawai;
 
             $i++;
         }
@@ -690,15 +691,115 @@ class TPP extends CI_Controller
         $sheet->setCellValue("B$row", $approve_1_jabatan);
         $sheet->mergeCells("B$row:C$row");
 
-
         $sheet->setCellValue("I$row", $approve_2_jabatan);
         $sheet->mergeCells("I$row:N$row");
 
-        
 
-        $sheet->setCellValue("I$row", $approve_2_jabatan);
+        $sheet->setCellValue("T$row", $approve_3_jabatan);
+        $sheet->mergeCells("T$row:V$row");
+
+
+        $styleArray = [
+            'font'  => array(
+                'size'  => 11,
+                'name'  => 'Bookman Old Style'
+            )
+        ];
+
+        $sheet->getStyle("A$row:V$row")->applyFromArray($styleArray);
+
+
+        $sheet->getStyle("B$row:C$row")->getAlignment()->setHorizontal('left');
+        $sheet->getStyle("B$row:C$row")->getAlignment()->setVertical('center');
+
+
+        $sheet->getStyle("I$row:V$row")->getAlignment()->setHorizontal('center');
+        $sheet->getStyle("I$row:V$row")->getAlignment()->setVertical('center');
+
+        $row = $row + 4;
+
+
+
+
+        $sheet->setCellValue("B$row", $approve_1_nama_pegawai);
+        $sheet->mergeCells("B$row:C$row");
+
+        $sheet->setCellValue("I$row", $approve_2_nama_pegawai);
         $sheet->mergeCells("I$row:N$row");
 
+
+        $sheet->setCellValue("T$row", $approve_3_nama_pegawai);
+        $sheet->mergeCells("T$row:V$row");
+
+
+        $styleArray = [
+            'font'  => array(
+                'size'  => 11,
+                'bold'  => true,
+                'underline' => true,
+                'name'  => 'Bookman Old Style'
+            )
+        ];
+
+        $sheet->getStyle("A$row:V$row")->applyFromArray($styleArray);
+
+
+        $sheet->getStyle("B$row:C$row")->getAlignment()->setHorizontal('left');
+        $sheet->getStyle("B$row:C$row")->getAlignment()->setVertical('center');
+
+
+        $sheet->getStyle("I$row:V$row")->getAlignment()->setHorizontal('center');
+        $sheet->getStyle("I$row:V$row")->getAlignment()->setVertical('center');
+
+        $row++;
+
+
+
+        $sheet->setCellValue("B$row", $approve_1_pangkat_golongan);
+        $sheet->mergeCells("B$row:C$row");
+
+        $sheet->setCellValue("I$row", $approve_2_pangkat_golongan);
+        $sheet->mergeCells("I$row:N$row");
+
+
+        $sheet->setCellValue("T$row", $approve_3_pangkat_golongan);
+        $sheet->mergeCells("T$row:V$row");
+
+
+
+
+        $row++;
+
+
+        $sheet->setCellValue("B$row", $approve_1_nip);
+        $sheet->mergeCells("B$row:C$row");
+
+        $sheet->setCellValue("I$row", $approve_2_nip);
+        $sheet->mergeCells("I$row:N$row");
+
+
+        $sheet->setCellValue("T$row", $approve_3_nip);
+        $sheet->mergeCells("T$row:V$row");
+
+
+        $styleArray = [
+            'font'  => array(
+                'size'  => 11,
+                'name'  => 'Bookman Old Style'
+            )
+        ];
+
+        $rows       = $row - 3;
+
+        $sheet->getStyle("A$rows:V$row")->applyFromArray($styleArray);
+
+
+        $sheet->getStyle("B$rows:C$row")->getAlignment()->setHorizontal('left');
+        $sheet->getStyle("B$rows:C$row")->getAlignment()->setVertical('center');
+
+
+        $sheet->getStyle("I$rows:V$row")->getAlignment()->setHorizontal('center');
+        $sheet->getStyle("I$rows:V$row")->getAlignment()->setVertical('center');
 
 
 
