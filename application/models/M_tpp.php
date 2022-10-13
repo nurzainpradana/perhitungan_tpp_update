@@ -137,11 +137,10 @@ class M_tpp extends CI_Model
 
     function loadApprovalList()
     {
-        $this->db->select("*");
-        $this->db->from("tb_approval");
-        $this->db->limit(3);
-        $this->db->order_by("level", "desc");
-
-        return $this->db->get()->result();
+        return $this->db->query("SELECT p.nama, p.nip_pegawai, j.nama_jabatan, p.pangkat_golongan FROM tb_approval a 
+        LEFT JOIN tb_pegawai p ON p.id_pegawai = a.id_pegawai
+        LEFT JOIN tb_jabatan j ON p.id_jabatan = j.id_jabatan
+        ORDER BY a.level_approval DESC
+        LIMIT 3;")->result();
     }
 }

@@ -31,7 +31,7 @@
                                     <div class="col-12">
                                         <div class="form-group">
                                             <label for="exampleSelectBorder">Pegawai <span class="text-danger">*</span></label>
-                                            <select class="form-control form-control-border" id="inputIdPegawai" name="IdPegawai" required>
+                                            <select class="form-control form-control-border" id="inputPegawai" name="pegawai" required>
                                                 <option value="">-- Pilih Pegawai --</option>
                                             </select>
                                             <span class='form-control-feedback text-danger'></span>
@@ -41,8 +41,13 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="form-group">
-                                            <label for="exampleSelectBorder">Unit Kerja <span class="text-danger">*</span></label>
-                                            <input name="unit_kerja" type="text" class="form-control form-control-border border-width-2" id="inputUnitKerja" autocomplete="off" required placeholder="Unit Kerja">
+                                            <label for="exampleSelectBorder">Level <span class="text-danger">*</span></label>
+                                            <select class="form-control form-control-border" id="inputPegawai" name="level" required>
+                                                <option value="">-- Pilih Level Approval --</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                            </select>
                                             <span class='form-control-feedback text-danger'></span>
                                         </div>
                                     </div>
@@ -65,7 +70,7 @@
                     <div class="card card-primary card-outline">
                         <div class="card-header">
                             <div class="card-title">
-                                Daftar Jabatan
+                                Daftar Approval List
                                 <br>
                             </div>
                         </div>
@@ -73,11 +78,13 @@
                             
                             <div class="row">
                                 <div class="col-12">
-                                    <table id="tableJabatan" class="table table-bordered table-striped">
+                                    <table id="tableApproval" class="table table-bordered table-striped">
                                         <thead>
                                             <tr>
+                                                <th>Nama Pegawai</th>
                                                 <th>Nama Jabatan</th>
                                                 <th>Unit Kerja</th>
+                                                <th>Level Approval</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -92,4 +99,4 @@
     </div>
 </div>
 <!-- /.content-wrapper -->
-<script src="<?= base_url() . 'assets/js/jabatan.js'; ?>"></script>
+<script src="<?= base_url() . 'assets/js/approval.js'; ?>"></script>

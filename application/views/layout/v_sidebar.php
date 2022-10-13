@@ -28,6 +28,11 @@
           </a>
         </li>
         <li class='nav-item'>
+          <a href="<?= base_url('index.php/Approval'); ?>" class="nav-link <?= $this->router->fetch_class() == 'Approval' ? 'active' : ''; ?>">
+            <p>Approval</p>
+          </a>
+        </li>
+        <li class='nav-item'>
           <a href="<?= base_url('index.php/CapaianKinerja'); ?>" class="nav-link <?= $this->router->fetch_class() == 'CapaianKinerja' ? 'active' : ''; ?>">
             <p>Capaian Kinerja</p>
           </a>

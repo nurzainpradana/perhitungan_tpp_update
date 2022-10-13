@@ -338,7 +338,7 @@ class TPP extends CI_Controller
             $sum_prod_kerja_diterima             += $item->prod_kerja_diterima;
 
 
-            $sum_penambahan_tpp                  += $item->penambahan_tpp;
+            $sum_penambahan_tpp                  += $item->tambahan_tpp;
             $sum_pengurangan_tpp                 += $item->pengurangan_tpp;
 
             $sum_jumlah_tpp_diterima             += $item->jumlah_tpp_diterima;
@@ -677,8 +677,8 @@ class TPP extends CI_Controller
 
         $i      = 1;
         foreach ($approval as $pegawai) {
-            ${"approve_{$i}_jabatan"}           = $pegawai->jabatan;
-            ${"approve_{$i}_nama_pegawai"}      = $pegawai->nama_pegawai;
+            ${"approve_{$i}_jabatan"}           = $pegawai->nama_jabatan;
+            ${"approve_{$i}_nama_pegawai"}      = $pegawai->nama;
             ${"approve_{$i}_pangkat_golongan"}  = $pegawai->pangkat_golongan;
             ${"approve_{$i}_nip"}               = $pegawai->nip_pegawai;
 

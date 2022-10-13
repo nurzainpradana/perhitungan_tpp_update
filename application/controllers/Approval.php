@@ -24,24 +24,26 @@ class Approval extends CI_Controller
         $this->load->view('layout/v_footer');
     }
 
-    function loadJabatanListDatatables()
+    function loadApprovalListDatatables()
     {
 
-        $jabatan            = $this->M_jabatan->loadDataJabatanDatatables();
+        $approval            = $this->M_approval->loadDataApprovalDatatables();
 
         $data               = array();
         $no                 = $_POST['start'];
 
         $i                  = 0;
-        foreach ($jabatan as $item) {
+        foreach ($approval as $item) {
             $no++;
             $row        = array();
 
+            $row[]      = $item->nama;
             $row[]      = $item->nama_jabatan;
             $row[]      = $item->unit_kerja;
+            $row[]      = $item->level_approval;
             $row[]      = "
-            <button data-id='$item->id_jabatan' class='btn btn-xs btn-success' onclick='editJabatan($item->id_jabatan)' title='Edit Jabatan'><i class='fa fa-edit'></i></button>
-            <button data-id='$item->id_jabatan' class='btn btn-xs btn-danger' onclick='deleteJabatan($item->id_jabatan)' title='Hapus Jabatan'><i class='fa fa-trash'></i></button>
+            <button data-id='$item->id_approval' class='btn btn-xs btn-success' onclick='editApproval($item->id_approval)' title='Edit Approval'><i class='fa fa-edit'></i></button>
+            <button data-id='$item->id_approval' class='btn btn-xs btn-danger' onclick='deleteApproval($item->id_approval)' title='Hapus Approval'><i class='fa fa-trash'></i></button>
             ";
 
 
@@ -52,8 +54,8 @@ class Approval extends CI_Controller
 
         $output         = array(
             "draw"              => $_POST['draw'],
-            "recordsTotal"      => $this->M_jabatan->count_all(),
-            "recordsFiltered"   => $this->M_jabatan->count_filtered(),
+            "recordsTotal"      => $this->M_approval->count_all(),
+            "recordsFiltered"   => $this->M_approval->count_filtered(),
             "data"              => $data,
         );
 

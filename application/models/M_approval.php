@@ -6,8 +6,8 @@ class M_approval extends CI_Model
 {
 
     var $table      = "tb_approval";
-    var $column     = array("nama_pegawai", "nip_pegawai", "nama_jabatan", "unit_kerja");
-    var $order      = array("nama_jabatan" => "asc");
+    var $column     = array("nama", "nama_jabatan", "unit_kerja");
+    var $order      = array("level" => "asc");
 
     public function __construct()
     {
@@ -23,7 +23,9 @@ class M_approval extends CI_Model
     private function _get_datatables_query()
     {
         $this->db->select("*");
-        $this->db->from("tb_jabatan p");
+        $this->db->from("tb_approval a");
+        $this->db->join("tb_pegawai p", "p.id_pegawai = a.id_pegawai", "left");
+        $this->db->join("tb_jabatan j", "j.id_jabatan = p.id_jabatan", "left") ;
 
         $i      = 0;
 
@@ -46,7 +48,7 @@ class M_approval extends CI_Model
     }
 
 
-    function loadDataJabatanDatatables()
+    function loadDataApprovalDatatables()
     {
         $this->_get_datatables_query();
 
