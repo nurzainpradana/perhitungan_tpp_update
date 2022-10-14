@@ -66,22 +66,39 @@ class Approval extends CI_Controller
 
     function Add()
     {
-        $nama_jabatan       = $this->input->post("nama_jabatan");
-        $unit_kerja         = $this->input->post("unit_kerja");
+        $id_pegawai         = $this->input->post("id_pegawai");
+        $level_approval     = $this->input->post("level_approval");
 
-        $data       = array(
-            "nama_jabatan"      => $nama_jabatan,
-            "unit_kerja"        => $unit_kerja
-        );
+        $check              = $this->M_approval->checkApprovalLevel($level_approval);
 
-        $insert             = $this->M_crud->insert("tb_jabatan", $data);
+        if ($check) {
+            // UPDATE APPROVAL
+            $data       = array(
+                "id_pegawai"        => $id_pegawai
+            );
 
-        if($insert){
+            $where      = array(
+                "level_approval"    => $level_approval
+            );
+
+            $insert     = $this->M_crud->update("tb_approval", $data, $where);
+        } else {
+            // INSERT APPROVAL
+
+            $data           = array(
+                "id_pegawai"        => $id_pegawai,
+                "level_approval"    => $level_approval
+            );
+
+            $insert         = $this->M_crud->insert("tb_approval", $data);
+        }
+
+        if ($insert) {
             $response_status        = "success";
-            $response_message       = "Berhasil menambahkan Jabatan";
+            $response_message       = "Berhasil menambahkan Approval";
         } else {
             $response_status        = "failed";
-            $response_message       = "Gagal menambahkan Jabatan";
+            $response_message       = "Gagal menambahkan Approval";
         }
 
         echo json_encode(array(
@@ -107,7 +124,7 @@ class Approval extends CI_Controller
 
         $update             = $this->M_crud->update("tb_jabatan", $data, $where);
 
-        if($update){
+        if ($update) {
             $response_status        = "success";
             $response_message       = "Berhasil mengedit Jabatan";
         } else {
@@ -128,8 +145,7 @@ class Approval extends CI_Controller
 
         $jabatan        = $this->M_jabatan->getDetailJabatan($id_jabatan);
 
-        if($jabatan)
-        {
+        if ($jabatan) {
             $response_data      = $jabatan;
             $response_status    = "success";
             $response_message   = "Successfully";
@@ -156,8 +172,7 @@ class Approval extends CI_Controller
 
         $delete     = $this->M_crud->delete("tb_jabatan", $where);
 
-        if($delete)
-        {
+        if ($delete) {
             $response_status        = "success";
             $response_message       = "Berhasil menghapus Data Jabatan";
         } else {

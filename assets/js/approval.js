@@ -9,7 +9,7 @@ $(document).ready(function () {
 
 	loadPegawaiOptionList();
 
-    table = $("#tableApproval").DataTable({
+	table = $("#tableApproval").DataTable({
 		processing: true, //Feature control the processing indicator.
 		serverSide: true, //Feature control DataTables' server-side processing mode.
 		searching: true,
@@ -34,6 +34,49 @@ $(document).ready(function () {
 			},
 		],
 	});
+
+	$("#btnSave").click(function (e) {
+		if (
+			checkEmptyInputWithMessageArray(["#inputlevelApproval", "#inputPegawai"])
+		) {
+			$(".loading").show();
+			$.ajax({
+				url: baseUrl + "/Approval/Add",
+				type: "POST",
+				data: {
+					id_pegawai: $("#inputPegawai").val(),
+					level_approval: $("#inputlevelApproval").val(),
+				},
+				dataType: "JSON",
+				success: function (response) {
+					$(".loading").hide();
+					$("#jabatanForm")[0].reset();
+					if (response.status == "success") {
+						Swal.fire({
+							icon: "success",
+							title: "Berhasil!",
+							text: response.message,
+						});
+					} else {
+						Swal.fire({
+							icon: "error",
+							title: "Gagal!",
+							text: response.message,
+						});
+					}
+					reload_table();
+				},
+				error: function (response) {
+					$(".loading").hide();
+					Swal.fire({
+						icon: "error",
+						title: "Gagal!",
+						text: "Gagal melakukan proses simpan Approval",
+					});
+				},
+			});
+		}
+	});
 });
 
 function loadPegawaiOptionList() {
@@ -46,4 +89,8 @@ function loadPegawaiOptionList() {
 			$("#inputPegawai").append(response);
 		},
 	});
+}
+
+function reload_table() {
+	table.ajax.reload(null, false); //reload datatable ajax
 }

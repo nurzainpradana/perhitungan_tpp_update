@@ -25,7 +25,7 @@ class M_approval extends CI_Model
         $this->db->select("*");
         $this->db->from("tb_approval a");
         $this->db->join("tb_pegawai p", "p.id_pegawai = a.id_pegawai", "left");
-        $this->db->join("tb_jabatan j", "j.id_jabatan = p.id_jabatan", "left") ;
+        $this->db->join("tb_jabatan j", "j.id_jabatan = p.id_jabatan", "left");
 
         $i      = 0;
 
@@ -89,6 +89,15 @@ class M_approval extends CI_Model
         $this->db->select("*");
         $this->db->from("tb_jabatan");
         $this->db->where("id_jabatan", $id_jabatan);
+
+        return $this->db->get()->row();
+    }
+
+    public function checkApprovalLevel($level_approval)
+    {
+        $this->db->select("*");
+        $this->db->from("tb_approval");
+        $this->db->where("level_approval", $level_approval);
 
         return $this->db->get()->row();
     }

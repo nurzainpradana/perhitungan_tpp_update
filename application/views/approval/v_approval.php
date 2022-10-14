@@ -22,12 +22,12 @@
     <!-- Main content -->
     <div class="content">
         <div class="container-fluid">
-        <div class="row">
+            <div class="row">
                 <div class="col-12">
                     <div class="card card-primary card-outline">
                         <form action="#" id="jabatanForm" method="post" target="_blank">
                             <div class="card-body">
-                            <div class="row">
+                                <div class="row">
                                     <div class="col-12">
                                         <div class="form-group">
                                             <label for="exampleSelectBorder">Pegawai <span class="text-danger">*</span></label>
@@ -42,7 +42,7 @@
                                     <div class="col-12">
                                         <div class="form-group">
                                             <label for="exampleSelectBorder">Level <span class="text-danger">*</span></label>
-                                            <select class="form-control form-control-border" id="inputPegawai" name="level" required>
+                                            <select class="form-control form-control-border" id="inputlevelApproval" name="level_approval" required>
                                                 <option value="">-- Pilih Level Approval --</option>
                                                 <option value="1">1</option>
                                                 <option value="2">2</option>
@@ -75,7 +75,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            
+
                             <div class="row">
                                 <div class="col-12">
                                     <table id="tableApproval" class="table table-bordered table-striped">
