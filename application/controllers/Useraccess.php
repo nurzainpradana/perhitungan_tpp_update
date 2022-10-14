@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class CapaianKinerja extends CI_Controller
+class UserAccess extends CI_Controller
 {
     function __construct()
     {
@@ -12,18 +12,18 @@ class CapaianKinerja extends CI_Controller
 
         $this->load->model(array(
             "M_pegawai", "M_jabatan",
-            "M_capaian_kinerja"
+            "M_capaian_kinerja", "M_user_access"
         ));
     }
 
     function index()
     {
-        $datas['page_title']            = "Capaian Kinerja";
+        $datas['page_title']            = "User Access";
 
         $this->load->view('layout/v_header', $datas);
         $this->load->view('layout/v_top_menu');
         $this->load->view('layout/v_sidebar');
-        $this->load->view('capaian_kinerja/v_capaian_kinerja');
+        $this->load->view('user_access/v_user_access');
         $this->load->view('layout/v_footer');
     }
 
@@ -66,25 +66,38 @@ class CapaianKinerja extends CI_Controller
 
     function add()
     {
-        $id_pegawai                 = $this->input->post("id_pegawai");
-        $presentase_produktivitas   = $this->input->post("presentase_produktivitas");
-        $periode                    = $this->input->post("periode");
+        $id_pegawai                 = $this->input->post("pegawai");
+        $user_id                    = $this->input->post("user_id");
+        $password                   = md5($this->input->post("password"));
+        $level                      = $this->input->post("level");
+        $status                     = $this->input->post("status");
 
-        $data           = array(
-            "id_pegawai"                    => $id_pegawai,
-            "nilai_produktivitas_kerja"     => $presentase_produktivitas,
-            "periode"                       => $periode
-        );
+        $check                      = $this->M_user_access->checkUserId($user_id);
 
-        $insert         = $this->M_crud->insert("tb_capaian_kerja", $data);
-
-        if ($insert) {
-            $response_status        = "success";
-            $response_message       = "Berhasil menyimpan data capaian kerja pegawai";
+        if ($check) {
+            $response_status    = "failed";
+            $response_message   = "User ID sudah terdaftar";
         } else {
-            $response_status        = "failed";
-            $response_message       = "Gagal menyimpan data capaian kerja pegawai";
+            $data           = array(
+                "id_pegawai"                    => $id_pegawai,
+                "user_id"                       => $user_id,
+                "password"                      => $password,
+                "level"                         => $level,
+                "status"                        => $status
+            );
+
+            $insert         = $this->M_crud->insert("tb_user", $data);
+
+            if ($insert) {
+                $response_status        = "success";
+                $response_message       = "Berhasil menyimpan data User Access";
+            } else {
+                $response_status        = "failed";
+                $response_message       = "Gagal menyimpan data User Access";
+            }
         }
+
+
 
         echo json_encode(array(
             "status"        => $response_status,

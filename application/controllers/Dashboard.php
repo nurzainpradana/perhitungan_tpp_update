@@ -9,8 +9,6 @@ class Dashboard extends CI_Controller
         if ($this->session->userdata('logged') !== TRUE) {
             redirect(base_url() . 'index.php/Login');
         }
-
-        $this->load->model(array("M_voucher_unregistered", "M_voucher_out", "M_voucher_registered"));
     }
 
     function index()

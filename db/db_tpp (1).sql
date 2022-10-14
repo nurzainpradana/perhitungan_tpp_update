@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 14, 2022 at 07:48 AM
+-- Generation Time: Oct 14, 2022 at 11:50 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 7.4.29
 
@@ -290,6 +290,21 @@ INSERT INTO `tb_tpp` (`id_tpp`, `periode`, `id_pegawai`, `tpp_beban_kerja`, `tpp
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tb_user`
+--
+
+CREATE TABLE `tb_user` (
+  `id_user_access` int(11) NOT NULL,
+  `id_pegawai` int(11) NOT NULL,
+  `user_id` varchar(255) NOT NULL,
+  `level` int(11) NOT NULL,
+  `password` text NOT NULL,
+  `status` int(11) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `user_log`
 --
 
@@ -354,6 +369,12 @@ ALTER TABLE `tb_tpp`
   ADD PRIMARY KEY (`id_tpp`);
 
 --
+-- Indexes for table `tb_user`
+--
+ALTER TABLE `tb_user`
+  ADD PRIMARY KEY (`id_user_access`);
+
+--
 -- Indexes for table `user_log`
 --
 ALTER TABLE `user_log`
@@ -410,6 +431,12 @@ ALTER TABLE `tb_rekapitulasi_presensi`
 --
 ALTER TABLE `tb_tpp`
   MODIFY `id_tpp` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `tb_user`
+--
+ALTER TABLE `tb_user`
+  MODIFY `id_user_access` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `user_log`

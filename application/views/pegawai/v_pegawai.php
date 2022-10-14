@@ -22,9 +22,9 @@
     <!-- Main content -->
     <div class="content">
         <div class="container-fluid">
-        <div class="row">
+            <div class="row">
                 <div class="col-12">
-                    <div class="card card-primary card-outline">
+                    <div class="card card-success card-outline">
                         <form action="#" id="pegawaiForm" method="post" target="_blank">
                             <div class="card-body">
                                 <div class="row">
@@ -68,7 +68,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-12">
-                                    <div class="form-group">
+                                        <div class="form-group">
                                             <label for="exampleSelectBorder">Level User</label>
                                             <select class="form-control form-control-border" id="inputLevel" name="level_user" required>
                                                 <option value="">-- Pilih Level User --</option>
@@ -105,7 +105,7 @@
             </div>
             <div class="row">
                 <div class="col-12">
-                    <div class="card card-primary card-outline">
+                    <div class="card card-success card-outline">
                         <div class="card-header">
                             <div class="card-title">
                                 Daftar Pegawai
@@ -113,7 +113,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            
+
                             <div class="row">
                                 <div class="col-12">
                                     <table id="tablePegawai" class="table table-bordered table-striped">
