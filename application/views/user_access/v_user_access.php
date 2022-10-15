@@ -49,6 +49,7 @@
                                                 <div class="form-group">
                                                     <label for="exampleSelectBorder">User ID <span class="text-danger">*</span></label>
                                                     <input name="user_id" type="text" class="form-control form-control-border border-width-2" id="inputUserID" autocomplete="off" required placeholder="Input User ID">
+                                                    <input name="id_user_access" type="text" class="form-control form-control-border border-width-2" id="inputIdUserAccess" autocomplete="off" required placeholder="Input Id User Access" hidden>
                                                     <span class='form-control-feedback text-danger'></span>
                                                 </div>
                                             </div>

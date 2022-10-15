@@ -18,9 +18,9 @@ class M_user_access extends CI_Model
 
     private function _get_datatables_query()
     {
-        $this->db->select("*");
-        $this->db->from("tb_capaian_kerja ck");
-        $this->db->join("tb_pegawai p", "p.id_pegawai = ck.id_pegawai", "left");
+        $this->db->select("u.*, p.nama, j.nama_jabatan");
+        $this->db->from("tb_user u");
+        $this->db->join("tb_pegawai p", "p.id_pegawai = u.id_pegawai", "left");
         $this->db->join("tb_jabatan j", "j.id_jabatan = p.id_jabatan", "left");
 
         $i      = 0;
@@ -47,6 +47,8 @@ class M_user_access extends CI_Model
         }
     }
 
+    
+
     function checkUserId($user_id)
     {
         $this->db->select("*");
@@ -57,7 +59,7 @@ class M_user_access extends CI_Model
     }
 
 
-    function loadDataCapaianKinerjaDatatables()
+    function loadDataUserAccessDatatables()
     {
         $this->_get_datatables_query();
 
@@ -93,11 +95,11 @@ class M_user_access extends CI_Model
         return $this->db->get()->result();
     }
 
-    public function getDetailCapaianKinerja($id_capaian_kinerja)
+    public function getDetailUserAccess($id_user_access)
     {
         $this->db->select("*");
-        $this->db->from("tb_capaian_kerja");
-        $this->db->where("id_capaian_kinerja", $id_capaian_kinerja);
+        $this->db->from("tb_user");
+        $this->db->where("id_user_access", $id_user_access);
 
         return $this->db->get()->row();
     }

@@ -27,10 +27,10 @@ class UserAccess extends CI_Controller
         $this->load->view('layout/v_footer');
     }
 
-    function loadCapaianKinerjaListDatatables()
+    function loadUserAccessListDatatables()
     {
 
-        $jabatan            = $this->M_capaian_kinerja->loadDataCapaianKinerjaDatatables();
+        $jabatan            = $this->M_user_access->loadDataUserAccessDatatables();
 
         $data               = array();
         $no                 = $_POST['start'];
@@ -41,11 +41,33 @@ class UserAccess extends CI_Controller
             $row        = array();
 
             $row[]      = $item->nama;
-            $row[]      = $item->nama_jabatan;
-            $row[]      = $item->nilai_produktivitas_kerja . " %";
+            $row[]      = $item->user_id;
+
+            $level      = "";
+
+            switch($item->level)
+            {
+                case 1 : 
+                    $level  = "Admin Umpeg";
+                    break;
+
+                case 2 :
+                    $level  = "Admin Keuangan";
+                    break;
+                
+                case 3 :
+                    $level  = "Kasubag Umpeg";
+                    break;
+
+                case 4 :
+                    $level  = "Camat";
+                    break;
+
+            }
+            $row[]      = $level;
             $row[]      = "
-            <button data-id='$item->id_capaian_kinerja' class='btn btn-xs btn-success' onclick='editNilai($item->id_capaian_kinerja)' title='Edit Nilai'><i class='fa fa-edit'></i></button>
-            <button data-id='$item->id_capaian_kinerja' class='btn btn-xs btn-danger' onclick='deleteNilai($item->id_capaian_kinerja)' title='Hapus Nilai'><i class='fa fa-trash'></i></button>
+            <button data-id='$item->id_user_access' class='btn btn-xs btn-success' onclick='edit($item->id_user_access)' title='Edit User'><i class='fa fa-edit'></i></button>
+            <button data-id='$item->id_user_access' class='btn btn-xs btn-danger' onclick='delete($item->id_user_access)' title='Hapus User'><i class='fa fa-trash'></i></button>
             ";
 
             $data[]     = $row;
@@ -54,8 +76,8 @@ class UserAccess extends CI_Controller
 
         $output         = array(
             "draw"              => $_POST['draw'],
-            "recordsTotal"      => $this->M_jabatan->count_all(),
-            "recordsFiltered"   => $this->M_jabatan->count_filtered(),
+            "recordsTotal"      => $this->M_user_access->count_all(),
+            "recordsFiltered"   => $this->M_user_access->count_filtered(),
             "data"              => $data,
         );
 
@@ -69,7 +91,7 @@ class UserAccess extends CI_Controller
         $id_pegawai                 = $this->input->post("pegawai");
         $user_id                    = $this->input->post("user_id");
         $password                   = md5($this->input->post("password"));
-        $level                      = $this->input->post("level");
+        $level                      = $this->input->post("level_user");
         $status                     = $this->input->post("status");
 
         $check                      = $this->M_user_access->checkUserId($user_id);
@@ -107,18 +129,18 @@ class UserAccess extends CI_Controller
 
     function edit()
     {
-        $id_capaian_kinerja     = $this->input->post("id_capaian_kinerja");
+        $id_user_access     = $this->input->post("id_user_access");
 
-        $capaian_kinerja        = $this->M_capaian_kinerja->getDetailCapaianKinerja($id_capaian_kinerja);
+        $user_acces        = $this->M_user_access->getDetailUserAccess($id_user_access);
 
-        if ($capaian_kinerja) {
-            $response_data      = $capaian_kinerja;
+        if ($user_acces) {
+            $response_data      = $user_acces;
             $response_status    = "success";
             $response_message   = "Berhasil";
         } else {
             $response_data      = null;
             $response_status    = "failed";
-            $response_message   = "Gagal mendapatkan Data Jabatan";
+            $response_message   = "Gagal mendapatkan Data User Access";
         }
 
         echo json_encode(array(
@@ -130,21 +152,37 @@ class UserAccess extends CI_Controller
 
     function Update()
     {
-        $presentase_produktivitas   = $this->input->post("presentase_produktivitas");
-        $pegawai                    = $this->input->post("id_pegawai");
-        $periode                    = $this->input->post("periode");
+        $id_pegawai                 = $this->input->post("pegawai");
+        $user_id                    = $this->input->post("user_id");
+        $password                   = md5($this->input->post("password"));
+        $level                      = $this->input->post("level_user");
+        $status                     = $this->input->post("status");
+        $id_user_access             = $this->input->post("id_user_access");
 
-        $data       = array(
-            "nilai_produktivitas_kerja"      => $presentase_produktivitas
+        $user_access                = $this->input->post("id_user_access");
+
+        $data           = array(
+            "id_pegawai"                    => $id_pegawai,
+            "user_id"                       => $user_id,
+            "level"                         => $level,
+            "status"                        => $status
         );
+
+        if($this->input->post("password"))
+        {
+            $data["password"]           = $password;
+        }
 
         $where      = array(
-            "id_pegawai"        => $pegawai,
-            "periode"           => $periode,
-            "id_approval"       => null
+            "id_user_access"        => $id_user_access
         );
 
-        $update             = $this->M_crud->update("tb_capaian_kerja", $data, $where);
+        $update         = $this->M_crud->update("tb_user", $data, $where);
+
+        if($update)
+        {
+            
+        }
 
         if ($update) {
             $response_status        = "success";

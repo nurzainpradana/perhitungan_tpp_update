@@ -9,7 +9,7 @@ $(document).ready(function () {
 
 	loadPegawaiOptionList();
 
-	table = $("#tableCapaianKinerja").DataTable({
+	table = $("#tableUserAccess").DataTable({
 		processing: true, //Feature control the processing indicator.
 		serverSide: true, //Feature control DataTables' server-side processing mode.
 		searching: true,
@@ -19,10 +19,9 @@ $(document).ready(function () {
 
 		// Load data for the table's content from an Ajax source
 		ajax: {
-			url: baseUrl + "/CapaianKinerja/loadCapaianKinerjaListDatatables",
+			url: baseUrl + "/UserAccess/loadUserAccessListDatatables",
 			type: "POST",
 			data: function (data) {
-				data.periode = $("#inputPeriode").val();
 			},
 		},
 
@@ -83,30 +82,24 @@ $(document).ready(function () {
 	});
 
 	$("#btnUpdate").click(function (e) {
-		checkEmptyInput("#inputPegawai");
-		checkEmptyInput("#inputPresentaseProduktivitas");
 
 		if (
-			checkEmptyInput("#inputPegawai") &&
-			checkEmptyInput("#inputPresentaseProduktivitas")
+			checkEmptyInputWithMessageArray([
+				"#inputStatus",
+				"#inputUserID",
+				"#inputLevel",
+				"#inputPegawai",
+			])
 		) {
+			$(".loading").show();
 			$.ajax({
-				url: baseUrl + "/CapaianKinerja/Update",
+				url: baseUrl + "/UserAccess/Update",
 				type: "POST",
-				data: {
-					periode: $("#inputPeriode").val(),
-					presentase_produktivitas: $("#inputPresentaseProduktivitas").val(),
-					id_pegawai: $("#inputPegawai").val(),
-				},
+				data: $("#userAccessForm").serialize(),
 				dataType: "JSON",
 				success: function (response) {
-					$("#capianKinerjaForm")[0].reset();
-					$("#btnUpdate").attr("hidden", "hidden");
-					$("#btnSave").removeAttr("hidden");
-
-					$("#inputPegawai").removeAttr("disabled");
-					$("#inputPeriode").removeAttr("disabled");
-
+					$(".loading").hide();
+					$("#userAccessForm")[0].reset();
 					if (response.status == "success") {
 						Swal.fire({
 							icon: "success",
@@ -123,10 +116,11 @@ $(document).ready(function () {
 					reload_table();
 				},
 				error: function (response) {
+					$(".loading").hide();
 					Swal.fire({
 						icon: "error",
 						title: "Gagal!",
-						text: "Gagal melakukan proses Update Capaian Kinerja",
+						text: "Gagal melakukan proses Simpan User Access",
 					});
 				},
 			});
@@ -174,27 +168,26 @@ function reload_table() {
 	table.ajax.reload(null, false); //reload datatable ajax
 }
 
-function editNilai(id) {
-	$("#capianKinerjaForm")[0].reset();
+function edit(id) {
+	$("#userAccessForm")[0].reset();
 
 	$.ajax({
-		url: baseUrl + "/CapaianKinerja/edit",
+		url: baseUrl + "/UserAccess/edit",
 		type: "POST",
 		dataType: "JSON",
 		data: {
-			id_capaian_kinerja: id,
+			id_user_access: id,
 		},
 		success: function (response) {
 			if (response.status == "success") {
 				var data = response.data;
-				$("#inputPeriode").val(data.periode);
 				$("#inputPegawai").val(data.id_pegawai);
-				$("#inputPresentaseProduktivitas").val(data.nilai_produktivitas_kerja);
+				$("#inputUserID").val(data.user_id);
+				$("#inputLevel").val(data.level);
+				$("#inputStatus").val(data.status);
+				$("#inputIdUserAccess").val(data.id_user_access);
 
-				$("#inputPegawai").attr("disabled", "disabled");
-				$("#inputPeriode").attr("disabled", "disabled");
-
-				$("#inputPresentaseProduktivitas").focus();
+				$("#inputPegawai").focus();
 
 				$("#btnSave").attr("hidden", "hidden");
 				$("#btnUpdate").removeAttr("hidden");
@@ -202,7 +195,7 @@ function editNilai(id) {
 				Swal.fire({
 					icon: "error",
 					title: "Gagal!",
-					text: "Gagal mendapatkan Data Jabatan!",
+					text: "Gagal mendapatkan Data User Access!",
 				});
 			}
 		},
@@ -210,7 +203,7 @@ function editNilai(id) {
 			Swal.fire({
 				icon: "error",
 				title: "Gagal!",
-				text: "Gagal memproses Data Pegawai!",
+				text: "Gagal memproses Data User Access!",
 			});
 		},
 	});
