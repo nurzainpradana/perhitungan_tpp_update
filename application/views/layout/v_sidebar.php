@@ -28,6 +28,11 @@
           </a>
         </li>
         <li class='nav-item'>
+          <a href="<?= base_url('index.php/UserAccess'); ?>" class="nav-link <?= $this->router->fetch_class() == 'UserAccess' ? 'active' : ''; ?>">
+            <p>User Access</p>
+          </a>
+        </li>
+        <li class='nav-item'>
           <a href="<?= base_url('index.php/Approval'); ?>" class="nav-link <?= $this->router->fetch_class() == 'Approval' ? 'active' : ''; ?>">
             <p>Approval</p>
           </a>

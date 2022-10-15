@@ -67,7 +67,7 @@ class UserAccess extends CI_Controller
             $row[]      = $level;
             $row[]      = "
             <button data-id='$item->id_user_access' class='btn btn-xs btn-success' onclick='edit($item->id_user_access)' title='Edit User'><i class='fa fa-edit'></i></button>
-            <button data-id='$item->id_user_access' class='btn btn-xs btn-danger' onclick='delete($item->id_user_access)' title='Hapus User'><i class='fa fa-trash'></i></button>
+            <button data-id='$item->id_user_access' class='btn btn-xs btn-danger' onclick='deleteUser($item->id_user_access)' title='Hapus User'><i class='fa fa-trash'></i></button>
             ";
 
             $data[]     = $row;

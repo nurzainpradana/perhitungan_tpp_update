@@ -209,7 +209,7 @@ function edit(id) {
 	});
 }
 
-function delete(id) {
+function deleteUser(id) {
 	Swal.fire({
 		title: "Konfirmasi",
 		text: "Apakah anda ingin menghapus data User Access ini ?",
@@ -222,10 +222,10 @@ function delete(id) {
 		if (result.isConfirmed) {
 			$(".loading").show();
 			$.ajax({
-				url: baseUrl + "/CapaianKinerja/delete",
+				url: baseUrl + "/UserAccess/delete",
 				type: "POST",
 				data: {
-					id_capaian_kinerja: id,
+					id_user_access: id,
 				},
 				dataType: "JSON",
 				success: function (response) {
@@ -241,7 +241,7 @@ function delete(id) {
 							text: response.message,
 						});
 					} else if (response.status == "failed") {
-						var message = "Gagal menghapus Data Capaian Kinerja";
+						var message = "Gagal menghapus Data UserAccess";
 
 						if (response.message !== "") {
 							message = response.message;
@@ -260,7 +260,7 @@ function delete(id) {
 					Swal.fire({
 						icon: "error",
 						title: "Gagal!",
-						text: "Gagal memproses Hapus Data Capaian Kinerja!",
+						text: "Gagal memproses Hapus Data UserAccess!",
 					});
 				},
 			});
