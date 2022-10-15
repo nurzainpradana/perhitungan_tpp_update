@@ -209,10 +209,10 @@ function edit(id) {
 	});
 }
 
-function deleteNilai(id) {
+function delete(id) {
 	Swal.fire({
 		title: "Konfirmasi",
-		text: "Apakah anda ingin menghapus data Nilai ini ?",
+		text: "Apakah anda ingin menghapus data User Access ini ?",
 		icon: "warning",
 		showCancelButton: true,
 		confirmButtonColor: "#3085d6",

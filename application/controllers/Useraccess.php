@@ -159,8 +159,6 @@ class UserAccess extends CI_Controller
         $status                     = $this->input->post("status");
         $id_user_access             = $this->input->post("id_user_access");
 
-        $user_access                = $this->input->post("id_user_access");
-
         $data           = array(
             "id_pegawai"                    => $id_pegawai,
             "user_id"                       => $user_id,
@@ -179,17 +177,12 @@ class UserAccess extends CI_Controller
 
         $update         = $this->M_crud->update("tb_user", $data, $where);
 
-        if($update)
-        {
-            
-        }
-
         if ($update) {
             $response_status        = "success";
-            $response_message       = "Berhasil mengedit Presentase Produktivitas Kinerja";
+            $response_message       = "Berhasil mengedit User Access";
         } else {
             $response_status        = "failed";
-            $response_message       = "Gagal mengedit Presentase Produktivitas Kinerja";
+            $response_message       = "Gagal mengedit User Access";
         }
 
         echo json_encode(array(
@@ -200,20 +193,20 @@ class UserAccess extends CI_Controller
 
     function delete()
     {
-        $id_capaian_kinerja         = $this->input->post("id_capaian_kinerja");
+        $id_user_access             = $this->input->post("id_user_access");
 
         $where             = array(
-            "id_capaian_kinerja"            => $id_capaian_kinerja
+            "id_user_access"            => $id_user_access
         );
 
-        $delete     = $this->M_crud->delete("tb_capaian_kerja", $where);
+        $delete     = $this->M_crud->delete("tb_user", $where);
 
         if ($delete) {
             $response_status        = "success";
-            $response_message       = "Berhasil menghapus Nilai Capaian Kinerja";
+            $response_message       = "Berhasil menghapus User Access";
         } else {
             $response_status        = "failed";
-            $response_message       = "Gagal menghapus Nilai Capaian Kinerja";
+            $response_message       = "Gagal menghapus User Access";
         }
 
         echo json_encode(array(
